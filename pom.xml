@@ -26,7 +26,7 @@
   <artifactId>gather-archiver</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>org.gatherdata.gather-archiver (OSGi project)</name>
+  <name>gather-archiver (feature)</name>
 
   <!--
    | describe your project here
