@@ -31,7 +31,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.gatherdata.gather-framework</groupId>
+            <groupId>org.gatherdata.gather-common</groupId>
             <artifactId>org.gatherdata.core.jpa</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

@@ -38,7 +38,7 @@
       <version>2.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.gatherdata.gather-framework</groupId>
+      <groupId>org.gatherdata.gather-common</groupId>
       <artifactId>org.gatherdata.core</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>

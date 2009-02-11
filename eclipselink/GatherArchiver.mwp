@@ -7,7 +7,7 @@
       <classpath-entries>
          <entry>../org.gatherdata.archiver.core/target/org.gatherdata.archiver.core-1.0-SNAPSHOT.jar</entry>
          <entry>../runner/bundles/com.springsource.org.hsqldb_1.8.0.9.jar</entry>
-         <entry>../../gather-framework/org.gatherdata.core.jpa/target/org.gatherdata.core.jpa-1.0-SNAPSHOT.jar</entry>
+         <entry>../../gather-common/org.gatherdata.core.jpa/target/org.gatherdata.core.jpa-1.0-SNAPSHOT.jar</entry>
       </classpath-entries>
       <user-type-names>
          <name>org.gatherdata.archiver.core.model.EnvelopeDTO</name>
