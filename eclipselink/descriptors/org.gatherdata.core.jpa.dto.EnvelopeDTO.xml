@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<descriptor type="relational">
+   <name>org.gatherdata.core.jpa.dto.EnvelopeDTO</name>
+   <class-handle>
+      <type-name>org.gatherdata.core.jpa.dto.EnvelopeDTO</type-name>
+   </class-handle>
+   <transactional-policy type="relational">
+      <descriptor-alias>EnvelopeDTO</descriptor-alias>
+      <refresh-cache-policy/>
+      <caching-policy/>
+      <query-manager type="relational"/>
+      <locking-policy type="relational"/>
+      <primary-key-policy/>
+   </transactional-policy>
+</descriptor>
