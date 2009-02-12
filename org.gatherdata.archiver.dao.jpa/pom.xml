@@ -19,7 +19,7 @@
     <artifactId>org.gatherdata.archiver.dao.jpa</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>${bundle.symbolicName}</name>
+    <name>gather-archiver - JPA (dao)</name>
 
     <packaging>bundle</packaging>
 

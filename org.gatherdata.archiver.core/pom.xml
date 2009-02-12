@@ -20,7 +20,7 @@
 	<artifactId>org.gatherdata.archiver.core</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>GATHER Archiver (service)</name>
+	<name>gather-archiver (service)</name>
 
 	<packaging>bundle</packaging>
 

@@ -20,7 +20,7 @@
     <artifactId>org.gatherdata.archiver.dao.el</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>${bundle.symbolicName}</name>
+    <name>gather-archiver - EclipseLink (dao)</name>
 
     <packaging>bundle</packaging>
 
