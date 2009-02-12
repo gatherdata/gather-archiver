@@ -22,7 +22,7 @@ public class BaseJpaTest {
     
     @Before
     public void setupEntityManager() {
-            emf = Persistence.createEntityManagerFactory("hibernateServer");
+            emf = Persistence.createEntityManagerFactory("hibernateInMemory");
 
             em = emf.createEntityManager();
     }
