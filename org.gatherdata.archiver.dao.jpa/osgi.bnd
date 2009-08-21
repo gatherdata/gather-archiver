@@ -3,3 +3,4 @@
 #-----------------------------------------------------------------
 
 Bundle-Activator: ${bundle.namespace}.osgi.OSGiActivator
+JPA-PersistenceUnits: eclipselinkInMemory, hibernateInMemory

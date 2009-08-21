@@ -7,16 +7,17 @@
         <properties>
             <property name="eclipselink.logging.level" value="INFO" />
             <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.HSQLPlatform" />
-            <property name="eclipselink.jdbc.driver" value="org.hsqldb.jdbcDriver" />
-            <property name="eclipselink.jdbc.url" value="jdbc:hsqldb:mem:mem:aname" />
-            <property name="eclipselink.jdbc.user" value="sa" />
-            <property name="eclipselink.jdbc.password" value="" />
+            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
+            <property name="javax.persistence" value="jdbc:hsqldb:mem:mem:aname" />
+            <property name="javax.persistence.jdbc" value="sa" />
+            <property name="javax.persistence.jdbc.password" value="" />
             <property name="eclipselink.ddl-generation" value="create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
             
         </properties>
 
-        <class>org.gatherdata.core.jpa.dto.EnvelopeDTO</class>
+        <class>org.gatherdata.archiver.dao.jpa.model.GatherArchiveDTO</class>
+        <class>org.gatherdata.archiver.dao.jpa.model.MetadataDTO</class>
 
     </persistence-unit>
 
@@ -34,7 +35,8 @@
             <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
 
-        <class>org.gatherdata.core.jpa.dto.EnvelopeDTO</class>
+        <class>org.gatherdata.archiver.dao.jpa.model.GatherArchiveDTO</class>
+        <class>org.gatherdata.archiver.dao.jpa.model.MetadataDTO</class>
 
     </persistence-unit>
     
@@ -53,7 +55,8 @@
             <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
 
-        <class>org.gatherdata.core.jpa.dto.EnvelopeDTO</class>
+        <class>org.gatherdata.archiver.dao.jpa.model.GatherArchiveDTO</class>
+        <class>org.gatherdata.archiver.dao.jpa.model.MetadataDTO</class>
 
     </persistence-unit>
 

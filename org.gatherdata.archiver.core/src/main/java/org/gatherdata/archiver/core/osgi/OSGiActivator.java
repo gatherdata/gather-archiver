@@ -3,9 +3,10 @@ package org.gatherdata.archiver.core.osgi;
 import static com.google.inject.Guice.createInjector;
 import static org.ops4j.peaberry.Peaberry.osgiModule;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.gatherdata.archiver.core.spi.EnvelopeArchiver;
+import java.util.logging.Logger;
+
+import org.gatherdata.archiver.core.spi.ArchiverDao;
+import org.gatherdata.archiver.core.spi.ArchiverService;
 import org.ops4j.peaberry.Export;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -18,10 +19,13 @@ import com.google.inject.Inject;
  **/
 public class OSGiActivator implements BundleActivator {
 	
-	Log log = LogFactory.getLog(OSGiActivator.class);
+	Logger log = Logger.getLogger(OSGiActivator.class.getName());
 
 	@Inject
-	Export<EnvelopeArchiver> archiver;
+	ArchiverDao archiverDaos;
+	
+	@Inject
+	Export<ArchiverService> archiver;
 	
 	/**
 	 * Implements BundleActivator.start().

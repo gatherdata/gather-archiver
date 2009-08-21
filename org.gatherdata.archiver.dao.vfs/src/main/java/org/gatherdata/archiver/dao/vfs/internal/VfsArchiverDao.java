@@ -12,8 +12,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
-import org.gatherdata.core.model.Envelope;
-import org.gatherdata.core.spi.dao.ContentStorageDao;
+import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.spi.ArchiverDao;
 
 /**
@@ -45,12 +44,12 @@ public class VfsArchiverDao implements ArchiverDao {
 		return fileExists;
 	}
 
-	public Envelope retrieveEnvelope(URI uid) {
-		Envelope foundEnvelope = null;
+	public GatherArchive retrieveEnvelope(URI uid) {
+	    GatherArchive foundEnvelope = null;
 		try {
 			FileObject envelopeFile = fsManager.resolveFile(fsBase, uid.toASCIIString());
 			if(envelopeFile.exists()) {
-				foundEnvelope = (Envelope) SerializationUtils.deserialize(envelopeFile.getContent().getInputStream());
+				foundEnvelope = (GatherArchive) SerializationUtils.deserialize(envelopeFile.getContent().getInputStream());
 			}
 		} catch (FileSystemException e) {
 			e.printStackTrace();
@@ -58,11 +57,11 @@ public class VfsArchiverDao implements ArchiverDao {
 		return foundEnvelope;
 	}
 
-	public List<? extends Envelope> getAll() {
-	    List<Envelope> allEnvelopes = new ArrayList<Envelope>();
+	public List<GatherArchive> getAll() {
+	    List<GatherArchive> allEnvelopes = new ArrayList<GatherArchive>();
 		try {
 			for (FileObject envelopeFile : fsBase.getChildren()) {
-				allEnvelopes.add((Envelope) SerializationUtils.deserialize(envelopeFile.getContent().getInputStream()));
+				allEnvelopes.add((GatherArchive) SerializationUtils.deserialize(envelopeFile.getContent().getInputStream()));
 			}
 		} catch (FileSystemException e) {
 			e.printStackTrace();
@@ -81,7 +80,7 @@ public class VfsArchiverDao implements ArchiverDao {
 		}
 	}
 
-	public Envelope save(Envelope envelopeToSave) {
+	public GatherArchive save(GatherArchive envelopeToSave) {
 		try {
 			FileObject envelopeFile = fsManager.resolveFile(fsBase, envelopeToSave.getUid().toASCIIString());
 			if(envelopeFile.exists()) {
@@ -96,101 +95,12 @@ public class VfsArchiverDao implements ArchiverDao {
 		return envelopeToSave;
 	}
 
-    public int getNumberOfStoredEnvelopes() {
-        return 0;
-    }
-
-    public Envelope getProxiedEnvelope(URI identifiedByUid,
-            ContentStorageDao<? extends Serializable> usingAlternateContentDoa) {
+    public GatherArchive get(URI arg0) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public Envelope saveEmpty(Envelope envelopeToSave) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
-    public Envelope saveProxy(Envelope envelopeToSave,
-            ContentStorageDao<? extends Serializable> usingAlternateContentDoa) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
-    public boolean envelopeExists(URI identifiedByUid) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public List<? extends Envelope> getAllEnvelopes() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Envelope getEnvelope(URI identifiedByUid) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public long getNumberOfEnvelopes() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    public void removeEnvelope(URI identifiedByUid) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public Serializable adapt(Serializable contentToAdapt) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public List<? extends Serializable> getAllContents() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Serializable getContent(URI uidOfEnvelope) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void removeContent(URI uidOfEnvelope) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public Serializable save(Serializable contentToSave) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Serializable saveAdapted(Serializable proxiedContentToSave) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public long getNumberOfQualifiedEnvelopes(String withQualifier) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    public List<Envelope> getAllProxiedEnvelopes(
-            ContentStorageDao<? extends Serializable> usingAlternateContentDao) {
-        // ABKTODO: implement this
-        throw new NotImplementedException();
-    }
-
-    public List<URI> getAllContentUids() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public boolean contentExists(URI uidOfEnvelope) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 
 }

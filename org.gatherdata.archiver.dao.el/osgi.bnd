@@ -3,5 +3,5 @@
 #-----------------------------------------------------------------
 
 Bundle-Activator: ${bundle.namespace}.osgi.OSGiActivator
-Import-Package: xsd,org.eclipse.persistence.platform.database,*
+Import-Package: xsd,org.eclipse.persistence.platform.database,org.xml.sax,*
 DynamicImport-Package: org.hsqldb

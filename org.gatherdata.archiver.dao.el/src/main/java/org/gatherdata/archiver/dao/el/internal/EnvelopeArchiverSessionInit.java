@@ -1,5 +1,6 @@
 package org.gatherdata.archiver.dao.el.internal;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Vector;
 
@@ -11,6 +12,8 @@ import org.eclipse.persistence.sessions.factories.XMLSessionConfigLoader;
 import org.eclipse.persistence.tools.schemaframework.SchemaManager;
 import org.eclipse.persistence.tools.schemaframework.TableCreator;
 import org.eclipse.persistence.tools.schemaframework.TableDefinition;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class EnvelopeArchiverSessionInit {
 
@@ -19,6 +22,14 @@ public class EnvelopeArchiverSessionInit {
 	
 	public EnvelopeArchiverSessionInit() {
 		SessionManager manager = SessionManager.getManager();
+		new org.xml.sax.EntityResolver() {
+
+            public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+                // TODO Auto-generated method stub
+                return null;
+            }
+		    
+		};
 		
 		elSession = manager.getSession(new XMLSessionConfigLoader(),
 				"hsqlDbSession", // session name

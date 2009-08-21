@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-  <!--
-   | put company details here
-  <organization>
-    <name>...</name>
-    <url>http://...</url>
-  </organization>
-  -->
-
-  <!--
-   | put license details here
-  <licenses>
-    <license>
-      <name>...</name>
-      <url>http://...</url>
-      <comments>
-      </comments>
-    </license>
-  </licenses>
-  -->
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.gatherdata</groupId>
@@ -28,50 +8,120 @@
 
   <name>gather-archiver (feature)</name>
 
-  <!--
-   | describe your project here
-  -->
-
   <description>Generated using Pax-Construct</description>
 
   <properties>
-    <!--
-     | some example OSGi runtime properties
-    -->
-    <org.osgi.service.http.port>8080</org.osgi.service.http.port>
-    <org.osgi.service.http.port.secure>8443</org.osgi.service.http.port.secure>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <!-- runtime properties -->
+      <org.osgi.service.http.port>8080</org.osgi.service.http.port>
+      <org.osgi.service.http.port.secure>8443</org.osgi.service.http.port.secure>
+      <org.osgi.framework.system.packages.extra>com.sun.org.apache.xalan.internal.res,com.sun.org.apache.xpath.internal.objects,com.sun.org.apache.xpath.internal.jaxp,com.sun.org.apache.xml.internal.utils,com.sun.org.apache.xpath.internal,org.xml.sax</org.osgi.framework.system.packages.extra>
+      <!-- gather versions -->
+      <gather-commons.version>1.0-SNAPSHOT</gather-commons.version>
+      <gather-archiver.version>1.0-SNAPSHOT</gather-archiver.version>
+      <!-- 3rd party versions -->
+      <geronimo.jta.version>1.1.1</geronimo.jta.version>
+      <eclipselink.version>2.0.0-M6</eclipselink.version>
+      <joda-time.version>1.5.2_1</joda-time.version>
+      <junit.version>4.5</junit.version>
+      <hamcrest.version>1.1</hamcrest.version>
+      <easymock.version>2.3.0</easymock.version>
+      <pax.exam.version>1.0.0</pax.exam.version>
+      <commons-lang.version>2.4</commons-lang.version>
+      <commons-vfs.version>1.0_1</commons-vfs.version>
+      <commons-codec.version>1.2_1</commons-codec.version>
+      <neo4j.neo.version>1.0-b9</neo4j.neo.version>
+      <neo4j.shell.version>1.0-b9</neo4j.shell.version>
+      <neo4j.index-util.version>0.7</neo4j.index-util.version>
+      <neo4j.remote-neo.version>0.2</neo4j.remote-neo.version>
+      <neo4j.neo-utils.version>1.0-b9</neo4j.neo-utils.version>
+      <neo4j.neo-component-commons.version>0.2</neo4j.neo-component-commons.version>
+
   </properties>
 
   <packaging>pom</packaging>
 
   <repositories>
-    <repository>
-      <id>ops4j.snapshots</id>
-      <url>http://repository.ops4j.org/mvn-snapshots/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>com.springsource.repository.bundles.release</id>
-      <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
-      <url>http://repository.springsource.com/maven/bundles/release</url>
-    </repository>
-    <repository>
-      <id>com.springsource.repository.bundles.external</id>
-      <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
-      <url>http://repository.springsource.com/maven/bundles/external</url>
-    </repository>
+      <repository>
+          <id>org.ops4j</id>
+          <name>OPS4J Maven Repository</name>
+          <url>http://repository.ops4j.org/maven2/</url>
+      </repository>
+      <repository>
+          <id>ops4j.snapshots</id>
+          <url>http://repository.ops4j.org/mvn-snapshots/</url>
+          <releases>
+              <enabled>false</enabled>
+          </releases>
+      </repository>
+      <repository>
+          <id>com.springsource.repository.bundles.release</id>
+          <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+          <url>http://repository.springsource.com/maven/bundles/release</url>
+      </repository>
+      <repository>
+          <id>com.springsource.repository.bundles.external</id>
+          <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+          <url>http://repository.springsource.com/maven/bundles/external</url>
+      </repository>
+      <repository>
+          <id>eclipselink.mirror</id>
+          <name>Columbia EclipseLink Maven Mirror</name>
+          <url>http://mirror.cc.columbia.edu/pub/software/eclipse/rt/eclipselink/maven.repo/</url>
+      </repository>
   </repositories>
 
   <modules>
-    <module>poms</module>
-    <module>provision</module>
-    <module>org.gatherdata.archiver.core</module>
-    <module>org.gatherdata.archiver.dao.vfs</module>
-    <module>org.gatherdata.archiver.dao.el</module>
-    <module>org.gatherdata.archiver.dao.jpa</module>
+      <module>poms</module>
+      <module>org.gatherdata.archiver.core</module>
+      <module>org.gatherdata.archiver.features</module>
+      <module>org.gatherdata.archiver.command</module>
   </modules>
+
+  <profiles>
+      <profile>
+          <id>jpa</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
+          <modules>
+              <module>org.gatherdata.archiver.dao.jpa</module>
+          </modules>
+          <properties>
+              <dao.gather-dependencies>eclipselink,gather-hsqldb</dao.gather-dependencies>
+              <!-- redundant, but harmless dao.provision... -->
+              <dao.provision>mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.dao.jpa/${gather-archiver.version}</dao.provision>
+          </properties>
+      </profile>
+      <profile>
+          <id>el</id>
+          <modules>
+              <module>org.gatherdata.archiver.dao.el</module>
+          </modules>
+      </profile>
+      <profile>
+          <id>vfs</id>
+          <modules>
+              <module>org.gatherdata.archiver.dao.vfs</module>
+          </modules>
+      </profile>
+      <profile>
+          <id>db4o</id>
+          <modules>
+              <module>org.gatherdata.archiver.dao.db4o</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>neo4j</id>
+      <modules>
+        <module>org.gatherdata.archiver.dao.neo4j</module>
+      </modules>
+      <properties>
+          <dao.gather-dependencies>neo4j-dependencies</dao.gather-dependencies>
+          <dao.provision>scan-features:mvn:org.neo4j.apoc-bundle/org.neo4j.neo.karaf/1.0-SNAPSHOT/xml/features!/neo4j-core-services</dao.provision>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
@@ -80,25 +130,16 @@
         <artifactId>maven-pax-plugin</artifactId>
         <version>1.4</version>
         <configuration>
-          <!--
-           | some example Pax-Runner settings
-          -->
+          <framework>felix</framework>
+          <profiles>log</profiles>
+          <!-- noDependencies=true to force all deployabled bundles to be part of a feature -->
+          <noDependencies>true</noDependencies>
           <provision>
-            <param>--platform=felix</param>
-            <param>--profiles=minimal</param>
+              <param>scan-features:mvn:org.gatherdata.gather-commons/org.gatherdata.commons.features/${gather-commons.version}/xml/features!/gather-core,${dao.gather-dependencies}</param>
+              <param>${dao.provision}</param>
           </provision>
         </configuration>
-        <executions>
-          <!--
-           | uncomment to auto-generate IDE files
-          <execution>
-            <id>ide-support</id>
-            <goals>
-              <goal>eclipse</goal>
-            </goals>
-          </execution>
-          -->
-        </executions>
+        <executions></executions>
       </plugin>
     </plugins>
   </build>

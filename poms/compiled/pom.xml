@@ -20,49 +20,48 @@
       <resource>
         <directory>src/main/resources</directory>
       </resource>
-      <!--
-       | example additional resource entries, useful when building Eclipse RCP applications
-      -->
-      <resource>
-        <directory>.</directory>
-        <includes>
-          <include>plugin.xml</include>
-          <include>plugin.properties</include>
-          <include>icons/**</include>
-        </includes>
-      </resource>
     </resources>
     <plugins>
-      <plugin>
-        <!--
-         | the following instructions build a simple set of public/private classes into an OSGi bundle
-        -->
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <configuration>
-          <instructions>
-            <Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
-            <Bundle-Version>${pom.version}</Bundle-Version>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.4.2</version>
+            <configuration>
+                <includes>
+                    <include>**/Test*.java</include>
+                    <include>**/*Test.java</include>
+                    <include>**/*Exam.java</include>
+                </includes>
+            </configuration>
+        </plugin>
+        <plugin>
             <!--
-             | assume public classes are in the top package, and private classes are under ".internal"
-            -->
-            <Export-Package>!${bundle.namespace}.internal.*,${bundle.namespace}.*;version="${pom.version}"</Export-Package>
-            <Private-Package>${bundle.namespace}.internal.*</Private-Package>
-            <!--
-             | each module can override these defaults in their osgi.bnd file
-            -->
-            <_include>-osgi.bnd</_include>
-          </instructions>
-        </configuration>
-      </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-              <source>1.5</source>
-              <target>1.5</target>
-          </configuration>
-      </plugin>
+             | the following instructions build a simple set of public/private classes into an OSGi bundle
+             -->
+            <groupId>org.apache.felix</groupId>
+            <artifactId>maven-bundle-plugin</artifactId>
+            <version>1.4.3</version>
+            <configuration>
+                <instructions>
+                    <Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
+                    <Bundle-Version>${pom.version}</Bundle-Version>
+                    <!--
+                     | assume public classes are in the top package, and private classes are under ".internal"
+                     -->
+                    <Export-Package>!${bundle.namespace}.internal.*,${bundle.namespace}.*;version="${pom.version}"</Export-Package>
+                    <Private-Package>${bundle.namespace}.internal.*</Private-Package>
+                    <_include>-osgi.bnd</_include>
+                </instructions>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.5</source>
+                <target>1.5</target>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
 

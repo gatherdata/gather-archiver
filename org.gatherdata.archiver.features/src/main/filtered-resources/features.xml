@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<features>     
+    <feature name="gather-archiver.core" version="${gather-archiver.version}">
+        <bundle>mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.core/${gather-archiver.version}</bundle>
+    </feature>
+
+    <feature name="gather-archiver.vfs" version="${gather-archiver.version}">
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-vfs/${commons-vfs.version}</bundle>
+        <bundle>mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.dao.vfs/${gather-archiver.version}</bundle>
+    </feature>
+
+</features>
