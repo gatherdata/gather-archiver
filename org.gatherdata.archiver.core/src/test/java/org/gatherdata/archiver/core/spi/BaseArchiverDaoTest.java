@@ -102,11 +102,13 @@ public abstract class BaseArchiverDaoTest {
             dao.save(entityToSave);
         }
         
+        beginTransaction();
         for (GatherArchive entityToRetrieve : entitiesToSave) {
-            GatherArchive retrievedEntity = dao.get(entityToRetrieve.getUid());
+            GatherArchive retrievedEntity = dao.get(entityToRetrieve.getUid());            
             assertNotNull(retrievedEntity);
             assertEquals(entityToRetrieve, retrievedEntity);
         }
+        endTransaction();
     }
     
     @Test
