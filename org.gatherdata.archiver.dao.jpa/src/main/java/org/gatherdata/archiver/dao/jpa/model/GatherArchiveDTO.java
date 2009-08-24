@@ -45,6 +45,9 @@ public class GatherArchiveDTO extends AbstractGatherArchive implements GatherArc
     @Transient
     private Map<String, String> lazyMetadata;
 
+    @Transient
+    private URI uid;
+
     private void setDateCreated(DateTime dateCreated) {
         this.dateCreated = dateCreated;
     }

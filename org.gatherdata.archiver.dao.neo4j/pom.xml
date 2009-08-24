@@ -120,4 +120,10 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>neo4j-public-repository</id>
+            <url>http://m2.neo4j.org</url>
+        </repository>        
+    </repositories>
 </project>

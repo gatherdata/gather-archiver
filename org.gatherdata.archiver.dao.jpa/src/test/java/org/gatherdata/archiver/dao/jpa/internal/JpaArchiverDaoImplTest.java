@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.spi.PersistenceProvider;
 
 import org.easymock.internal.matchers.Contains;
 import org.gatherdata.archiver.core.model.GatherArchive;
@@ -40,6 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 /**
@@ -50,6 +53,11 @@ public class JpaArchiverDaoImplTest extends BaseArchiverDaoTest {
 
     int mockPlainTextCount = 0;
     
+    @Inject
+    private PersistenceProvider persistenceProvider;
+
+    private EntityTransaction tx;
+
     @Before
     public void setupTheDao() {
         dao = new JpaArchiverDaoImpl("hibernateInMemory");
@@ -57,6 +65,7 @@ public class JpaArchiverDaoImplTest extends BaseArchiverDaoTest {
         // guice up the instance
         Injector injector = Guice.createInjector(new JpaTestingModule());
         injector.injectMembers(dao);
+        injector.injectMembers(this);
         
         urnFactory = new GatherUrnFactory();
         cbidFactory = new CbidFactory();
@@ -71,6 +80,18 @@ public class JpaArchiverDaoImplTest extends BaseArchiverDaoTest {
         mockEntity.setContent(content);
         mockEntity.setUid(CbidFactory.createCbid(content));
         return mockEntity;
+    }
+
+    @Override
+    protected void beginTransaction() {
+        EntityManager em = ((JpaArchiverDaoImpl) dao).getEntityManager();
+        tx = em.getTransaction();
+        tx.begin();
+    }
+
+    @Override
+    protected void endTransaction() {
+        tx.commit();
     }
    
 }
