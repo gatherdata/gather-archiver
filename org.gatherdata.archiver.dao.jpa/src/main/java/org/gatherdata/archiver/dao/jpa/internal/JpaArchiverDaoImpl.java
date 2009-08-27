@@ -17,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.spi.PersistenceProvider;
+import javax.transaction.Transaction;
 
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.spi.ArchiverDao;
@@ -43,6 +44,8 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
     @Inject
     private PersistenceProvider persistenceProvider;
 
+    private EntityTransaction currentTransaction;
+
 
     /**
      * Constructor that takes in a class to see which type of entity to persist.
@@ -55,14 +58,14 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
         this.persistenceUnitName = persistenceUnitName;
     }
 
-    public EntityTransaction beginTransaction() {
+    public void beginTransaction() {
         EntityTransaction newTransaction = getEntityManager().getTransaction();
         newTransaction.begin();
-        return newTransaction;
+        this.currentTransaction = newTransaction;
     }
 
-    public void endTransaction(EntityTransaction transaction) {
-        transaction.commit();
+    public void endTransaction() {
+        currentTransaction.commit();
     }
 
     public EntityManager getEntityManager() {
@@ -108,10 +111,10 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
     }
 
     public void remove(URI archiveIdentifiedBy) {
-        EntityTransaction tx = beginTransaction();
+        beginTransaction();
         GatherArchive entityToRemove = get(archiveIdentifiedBy);
         this.em.remove(entityToRemove);
-        endTransaction(tx);
+        endTransaction();
     }
 
     public GatherArchive save(GatherArchive entityToSave) {
@@ -119,11 +122,11 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
         if (entityToSave != null) {
             GatherArchiveDTO saveableEntity = GatherArchiveDTO.deriveInstanceFrom(entityToSave);
 
-            EntityTransaction tx = beginTransaction();
+            beginTransaction();
 
             savedEntity = this.em.merge(saveableEntity);
 
-            endTransaction(tx);
+            endTransaction();
         }
         return savedEntity;
     }
@@ -141,5 +144,6 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
         }
         
     }
+
 
 }
