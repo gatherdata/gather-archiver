@@ -10,8 +10,4 @@
         <bundle>mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.dao.vfs/${gather-archiver.version}</bundle>
     </feature>
 
-    <feature name="gather-archiver.neo4j" version="${gather-archiver.version}">
-        <feature>gather-archiver.core</feature>
-        <bundle>mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.dao.neo4j/${gather-archiver.version}</bundle>
-    </feature>
 </features>

@@ -210,16 +210,5 @@ public class ElArchiverDaoImpl implements ArchiverDao {
         // TODO Auto-generated method stub
         return null;
     }
-
-
-    public void beginTransaction() {
-        // ABKTODO: implement this
-        ;
-    }
-
-
-    public void endTransaction() {
-        // ABKTODO: implement this
-    }
     
 }

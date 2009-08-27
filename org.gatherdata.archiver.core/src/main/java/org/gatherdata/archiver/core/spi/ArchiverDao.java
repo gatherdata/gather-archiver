@@ -18,5 +18,4 @@ import org.gatherdata.commons.spi.dao.StorageDao;
  */
 public interface ArchiverDao extends StorageDao<GatherArchive> {
 
-
 }

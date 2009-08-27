@@ -20,7 +20,7 @@
     <artifactId>org.gatherdata.archiver.dao.db4o</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>gather-archiver - db4o (dao)</name>
+    <name>${bundle.symbolicName}</name>
 
     <packaging>bundle</packaging>
 

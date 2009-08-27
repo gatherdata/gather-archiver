@@ -137,12 +137,6 @@
               <scope>provided</scope>
           </dependency>
           <dependency>
-              <groupId>org.gatherdata.gather-commons</groupId>
-              <artifactId>org.gatherdata.commons.db.neo4j</artifactId>
-              <version>${gather-commons.version}</version>
-              <scope>provided</scope>
-          </dependency>
-          <dependency>
               <groupId>junit</groupId>
               <artifactId>junit</artifactId>
               <version>${junit.version}</version>

@@ -100,16 +100,6 @@ public class VfsArchiverDao implements ArchiverDao {
         return null;
     }
 
-    public void beginTransaction() {
-        // ABKTODO: no-op? file lock of some kind?
-        
-    }
-
-    public void endTransaction() {
-        // ABKTODO: no-op? file lock of some kind?
-        
-    }
-
 
 
 

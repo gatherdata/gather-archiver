@@ -81,6 +81,9 @@
   <profiles>
       <profile>
           <id>jpa</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
           <modules>
               <module>org.gatherdata.archiver.dao.jpa</module>
           </modules>
@@ -106,21 +109,18 @@
           <id>db4o</id>
           <modules>
               <module>org.gatherdata.archiver.dao.db4o</module>
-          </modules>
-      </profile>
-      <profile>
-          <id>neo4j</id>
-          <activation>
-              <activeByDefault>true</activeByDefault>
-          </activation>
-          <modules>
-              <module>org.gatherdata.archiver.dao.neo4j</module>
-          </modules>
-          <properties>
-              <dao.gather-dependencies>neo4j-service</dao.gather-dependencies>
-              <dao.provision>scan-features:mvn:org.neo4j.apoc-bundle/org.neo4j.neo.karaf/1.0-SNAPSHOT/xml/features!/neo4j-meta</dao.provision>
-          </properties>
-      </profile>
+      </modules>
+    </profile>
+    <profile>
+      <id>neo4j</id>
+      <modules>
+        <module>org.gatherdata.archiver.dao.neo4j</module>
+      </modules>
+      <properties>
+          <dao.gather-dependencies>neo4j-dependencies</dao.gather-dependencies>
+          <dao.provision>scan-features:mvn:org.neo4j.apoc-bundle/org.neo4j.neo.karaf/1.0-SNAPSHOT/xml/features!/neo4j-core-services</dao.provision>
+      </properties>
+    </profile>
   </profiles>
 
   <build>
