@@ -34,7 +34,8 @@ public class ArchiverServiceImpl implements ArchiverService {
 	}
 
 	public GatherArchive save(GatherArchive instance) {
-		return dao.save(instance);
+	    GatherArchive savedInstance = dao.save(instance);
+		return savedInstance;
 	}
 
 }
