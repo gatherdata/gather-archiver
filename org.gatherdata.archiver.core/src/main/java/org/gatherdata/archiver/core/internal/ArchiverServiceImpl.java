@@ -26,7 +26,10 @@ public class ArchiverServiceImpl implements ArchiverService {
 	}
 
 	public Iterable<GatherArchive> getAll() {
-		return dao.getAll();
+	    dao.beginTransaction();
+	    Iterable<GatherArchive> allArchives = dao.getAll();
+	    dao.endTransaction();
+		return allArchives;
 	}
 
 	public void remove(URI uid) {
