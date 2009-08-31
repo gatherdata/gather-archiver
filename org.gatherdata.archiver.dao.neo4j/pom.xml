@@ -40,6 +40,11 @@
         </dependency>
         <dependency>
             <groupId>org.gatherdata.gather-commons</groupId>
+            <artifactId>org.gatherdata.commons.core</artifactId>
+            <classifier>testing</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.gatherdata.gather-commons</groupId>
             <artifactId>org.gatherdata.commons.db.neo4j</artifactId>
         </dependency>
         <dependency>
@@ -128,6 +133,6 @@
         <repository>
             <id>neo4j-public-repository</id>
             <url>http://m2.neo4j.org</url>
-        </repository>        
+        </repository>
     </repositories>
 </project>

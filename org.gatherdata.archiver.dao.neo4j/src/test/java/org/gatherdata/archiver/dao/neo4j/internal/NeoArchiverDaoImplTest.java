@@ -32,6 +32,7 @@ import org.apache.commons.io.FileUtils;
 import org.easymock.internal.matchers.Contains;
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.model.MutableGatherArchive;
+import org.gatherdata.archiver.core.spi.ArchiverDao;
 import org.gatherdata.archiver.core.spi.BaseArchiverDaoTest;
 import org.gatherdata.archiver.dao.neo4j.internal.NeoArchiverDaoImpl;
 import org.gatherdata.commons.db.neo4j.NeoServices;
@@ -64,19 +65,17 @@ public class NeoArchiverDaoImplTest extends BaseArchiverDaoTest {
 
     private Transaction transaction;
     
-    @Before
-    public void setupTheDao() {
-        dao = new NeoArchiverDaoImpl();
+    @Override
+    protected ArchiverDao createStorageDaoImpl() {
+        ArchiverDao dao = new NeoArchiverDaoImpl();
         
         // guice up the instance
         Injector injector = Guice.createInjector(new NeoTestingModule());
         injector.injectMembers(this);
         injector.injectMembers(dao);
-
-        urnFactory = new GatherUrnFactory();
-        cbidFactory = new CbidFactory();
         
         NeoArchiverDaoImpl.log.setLevel(Level.ALL);
+        return dao;
     }
     
     @After
@@ -95,7 +94,7 @@ public class NeoArchiverDaoImplTest extends BaseArchiverDaoTest {
         final String content = "mocked up plain text contents, for unit testing. item #" 
             + Integer.toString(mockPlainTextCount++);
         MutableGatherArchive mockEntity = new MutableGatherArchive();
-        mockEntity.setDateCreated(new DateTime()); //urnFactory.getLocalUrn(), contents, MimeTypes.TEXT_PLAIN);
+        mockEntity.setDateCreated(new DateTime()); 
         mockEntity.setContent(content);
         mockEntity.setUid(CbidFactory.createCbid(content));
         return mockEntity;

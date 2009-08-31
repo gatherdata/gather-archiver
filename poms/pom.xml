@@ -138,6 +138,13 @@
           </dependency>
           <dependency>
               <groupId>org.gatherdata.gather-commons</groupId>
+              <artifactId>org.gatherdata.commons.core</artifactId>
+              <classifier>testing</classifier>
+              <version>${gather-commons.version}</version>
+              <scope>test</scope>
+          </dependency>
+          <dependency>
+              <groupId>org.gatherdata.gather-commons</groupId>
               <artifactId>org.gatherdata.commons.db.neo4j</artifactId>
               <version>${gather-commons.version}</version>
               <scope>provided</scope>
@@ -164,12 +171,6 @@
               <groupId>org.easymock</groupId>
               <artifactId>com.springsource.org.easymock</artifactId>
               <version>${easymock.version}</version>
-              <scope>test</scope>
-          </dependency>
-          <dependency>
-              <groupId>org.apache.servicemix.bundles</groupId>
-              <artifactId>org.apache.servicemix.bundles.hamcrest</artifactId>
-              <version>1.2-dev1_1</version>
               <scope>test</scope>
           </dependency>
           <dependency>
@@ -208,6 +209,12 @@
               <version>${commons-vfs.version}</version>
               <optional>true</optional>
               <scope>provided</scope>
+          </dependency>
+          <dependency>
+              <groupId>org.ops4j.pax.logging</groupId>
+              <artifactId>pax-logging-api</artifactId>
+              <version>${pax-logging.version}</version>
+              <optional>true</optional>
           </dependency>
       </dependencies>
   </dependencyManagement>

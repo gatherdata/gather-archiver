@@ -1,11 +1,7 @@
 package org.gatherdata.archiver.core.spi;
 
-import java.io.Serializable;
-import java.net.URI;
-import java.util.List;
-
 import org.gatherdata.archiver.core.model.GatherArchive;
-import org.gatherdata.commons.spi.dao.StorageDao;
+import org.gatherdata.commons.spi.StorageDao;
 
 
 /**

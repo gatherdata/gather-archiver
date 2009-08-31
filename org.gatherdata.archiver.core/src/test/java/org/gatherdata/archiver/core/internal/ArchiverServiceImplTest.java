@@ -11,17 +11,19 @@ import java.io.Serializable;
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.model.MutableGatherArchive;
 import org.gatherdata.archiver.core.spi.ArchiverDao;
+import org.gatherdata.archiver.core.spi.ArchiverService;
 import org.gatherdata.commons.net.CbidFactory;
-import org.gatherdata.commons.spi.dao.StorageDao;
+import org.gatherdata.commons.spi.BaseStorageServiceTest;
+import org.gatherdata.commons.spi.StorageDao;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ArchiverServiceImplTest {
+public class ArchiverServiceImplTest extends BaseStorageServiceTest<GatherArchive, ArchiverDao, ArchiverServiceImpl> {
 
     protected int mockPlainTextCount = 0;
 
-    protected GatherArchive createMockArchive() {
+    protected GatherArchive createMockEntity() {
         final String content = "mocked up plain text contents, for unit testing. item #" 
             + Integer.toString(mockPlainTextCount++);
         MutableGatherArchive mockEntity = new MutableGatherArchive();
@@ -30,64 +32,21 @@ public class ArchiverServiceImplTest {
         mockEntity.setUid(CbidFactory.createCbid(content));
         return mockEntity;
     }
-    
-    @Test
-    public void shouldUseDaoToSave()
-    {
-        ArchiverDao mockStorageDao = (ArchiverDao)createMock(ArchiverDao.class);
-        ArchiverServiceImpl serviceImpl = new ArchiverServiceImpl();
-        serviceImpl.dao = mockStorageDao;
-        
-        GatherArchive mockEntity = createMockArchive();
 
-        expect(mockStorageDao.save(mockEntity)).andReturn(mockEntity);
-        
-        replay(mockStorageDao);
-        
-        serviceImpl.save(mockEntity);
-        
-        verify(mockStorageDao);
-        
+    @Override
+    protected ArchiverDao createMockDao() {
+        return createMock(ArchiverDao.class);
+    }
+
+    @Override
+    protected ArchiverServiceImpl createStorageServiceImpl() {
+        return new ArchiverServiceImpl();
+    }
+
+    @Override
+    protected void injectDaoIntoService(ArchiverDao dao, ArchiverServiceImpl service) {
+        service.dao = dao;
     }
     
-    @Test
-    public void shouldUseDaoToGet()
-    {
-        ArchiverDao mockStorageDao = (ArchiverDao)createMock(ArchiverDao.class);
-        ArchiverServiceImpl serviceImpl = new ArchiverServiceImpl();
-        serviceImpl.dao = mockStorageDao;
-        
-        GatherArchive mockEntity = createMockArchive();
-
-        expect(mockStorageDao.get(mockEntity.getUid())).andReturn(mockEntity);
-        
-        replay(mockStorageDao);
-        
-        serviceImpl.get(mockEntity.getUid());
-        
-        verify(mockStorageDao);
-        
-    }
-
-    @Test
-    public void shouldUseDaoToCheckExists()
-    {
-        ArchiverDao mockStorageDao = (ArchiverDao)createMock(ArchiverDao.class);
-        ArchiverServiceImpl serviceImpl = new ArchiverServiceImpl();
-        serviceImpl.dao = mockStorageDao;
-        
-        GatherArchive mockEntity = createMockArchive();
-        GatherArchive missingEntity = createMockArchive();
-
-        expect(mockStorageDao.exists(mockEntity.getUid())).andReturn(true);
-        expect(mockStorageDao.exists(missingEntity.getUid())).andReturn(false);
-        
-        replay(mockStorageDao);
-        
-        assertTrue(serviceImpl.exists(mockEntity.getUid()));
-        assertFalse(serviceImpl.exists(missingEntity.getUid()));
-        
-        verify(mockStorageDao);
-    }
 
 }

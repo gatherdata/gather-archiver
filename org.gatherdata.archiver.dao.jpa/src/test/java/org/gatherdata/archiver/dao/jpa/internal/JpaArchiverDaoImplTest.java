@@ -35,7 +35,7 @@ import org.gatherdata.archiver.core.spi.BaseArchiverDaoTest;
 import org.gatherdata.commons.io.MimeTypes;
 import org.gatherdata.commons.net.CbidFactory;
 import org.gatherdata.commons.net.GatherUrnFactory;
-import org.gatherdata.commons.spi.dao.StorageDao;
+import org.gatherdata.commons.spi.StorageDao;
 import org.hamcrest.core.IsNot;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -58,17 +58,16 @@ public class JpaArchiverDaoImplTest extends BaseArchiverDaoTest {
 
     private EntityTransaction tx;
 
-    @Before
-    public void setupTheDao() {
-        dao = new JpaArchiverDaoImpl("hibernateInMemory");
+    @Override
+    protected ArchiverDao createStorageDaoImpl() {
+        JpaArchiverDaoImpl dao = new JpaArchiverDaoImpl("hibernateInMemory");
         
         // guice up the instance
         Injector injector = Guice.createInjector(new JpaTestingModule());
         injector.injectMembers(dao);
         injector.injectMembers(this);
         
-        urnFactory = new GatherUrnFactory();
-        cbidFactory = new CbidFactory();
+        return dao;
     }
 
     @Override

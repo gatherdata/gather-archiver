@@ -15,6 +15,7 @@ public class ArchiverServiceImpl implements ArchiverService {
 	Logger log = Logger.getLogger(ArchiverServiceImpl.class.getName());
 	
 	@Inject
+    public
 	ArchiverDao dao;
 
 	public boolean exists(URI uid) {
@@ -22,7 +23,15 @@ public class ArchiverServiceImpl implements ArchiverService {
 	}
 
 	public GatherArchive get(URI uid) {
-	    return dao.get(uid);
+	    GatherArchive foundEntity = null;
+	    try {
+    	    dao.beginTransaction();
+    	    foundEntity = dao.get(uid);
+	    } finally {
+	        dao.endTransaction();
+	    }
+	    return foundEntity;
+	    
 	}
 
 	public Iterable<GatherArchive> getAll() {

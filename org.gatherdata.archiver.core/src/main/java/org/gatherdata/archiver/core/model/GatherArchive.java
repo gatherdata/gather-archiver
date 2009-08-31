@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.Map;
 
+import org.gatherdata.commons.model.UniqueEntity;
 import org.joda.time.DateTime;
 
-public interface GatherArchive extends Serializable {
-
-	public URI getUid();
+public interface GatherArchive extends UniqueEntity {
 	
 	public Map<String, String> getMetadata();
 	

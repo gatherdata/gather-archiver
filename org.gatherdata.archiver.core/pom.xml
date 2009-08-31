@@ -73,6 +73,14 @@
             <artifactId>org.gatherdata.commons.core</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.gatherdata.gather-commons</groupId>
+            <artifactId>org.gatherdata.commons.core</artifactId>
+            <classifier>testing</classifier>
+            <version>${gather-commons.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.commons-codec</artifactId>
         </dependency>

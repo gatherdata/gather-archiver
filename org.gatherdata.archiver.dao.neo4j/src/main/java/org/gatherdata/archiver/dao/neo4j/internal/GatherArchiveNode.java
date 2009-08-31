@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.gatherdata.archiver.core.model.AbstractGatherArchive;
 import org.gatherdata.archiver.core.model.GatherArchive;
@@ -20,6 +21,8 @@ import org.neo4j.api.core.RelationshipType;
 
 public class GatherArchiveNode extends AbstractGatherArchive implements GatherArchive {
 
+    private static Logger log = Logger.getLogger(GatherArchiveNode.class.getName());
+    
     public enum ArchiveRelationships implements RelationshipType {
         METADATA_ABOUT
     }
@@ -95,6 +98,7 @@ public class GatherArchiveNode extends AbstractGatherArchive implements GatherAr
     }
 
     public void setMetadata(Map<String, String> metadata) {
+        log.fine("setMetadata("+ metadata + ")");
         for (String key : metadata.keySet()) {
             metadataNode.setProperty(key, metadata.get(key));
         }

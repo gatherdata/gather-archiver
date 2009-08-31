@@ -27,12 +27,15 @@
         <dependency>
             <groupId>org.ops4j.pax.logging</groupId>
             <artifactId>pax-logging-api</artifactId>
-            <version>1.2.1</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.gatherdata.gather-commons</groupId>
             <artifactId>org.gatherdata.commons.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gatherdata.gather-commons</groupId>
+            <artifactId>org.gatherdata.commons.core</artifactId>
+            <classifier>testing</classifier>
         </dependency>
         <dependency>
             <groupId>org.gatherdata.gather-archiver</groupId>
@@ -100,20 +103,17 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>com.springsource.org.easymock</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.hamcrest
-            </artifactId>
-            <scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit-dep</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
         </dependency>
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>
@@ -137,9 +137,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.aopalliance
-            </artifactId>
-            <version>1.0_1</version>
+            <artifactId>org.apache.servicemix.bundles.aopalliance</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -154,8 +152,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.commons-codec
-            </artifactId>
+            <artifactId>org.apache.servicemix.bundles.commons-codec</artifactId>
         </dependency>
     </dependencies>
 
