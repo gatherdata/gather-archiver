@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.gatherdata.archiver.core.model.AbstractGatherArchive;
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.model.MutableGatherArchive;
+import org.gatherdata.commons.model.neo4j.GatherNodeWrapper;
 import org.joda.time.DateTime;
 import org.neo4j.api.core.Direction;
 import org.neo4j.api.core.NeoService;
@@ -19,9 +20,9 @@ import org.neo4j.api.core.NotFoundException;
 import org.neo4j.api.core.Relationship;
 import org.neo4j.api.core.RelationshipType;
 
-public class GatherArchiveNode extends AbstractGatherArchive implements GatherArchive {
+public class GatherArchiveNodeWrapper extends AbstractGatherArchive implements GatherArchive, GatherNodeWrapper {
 
-    private static Logger log = Logger.getLogger(GatherArchiveNode.class.getName());
+    private static Logger log = Logger.getLogger(GatherArchiveNodeWrapper.class.getName());
     
     public enum ArchiveRelationships implements RelationshipType {
         METADATA_ABOUT
@@ -32,13 +33,7 @@ public class GatherArchiveNode extends AbstractGatherArchive implements GatherAr
      */
     private static final long serialVersionUID = 3942044815055659432L;
 
-    public static final String GATHER_NODETYPE_PROPERTY = "GatherNodeType";
-
     public static final String CONTENT_PROPERTY = "content";
-
-    public static final String UID_PROPERTY = "uid";
-
-    public static final String DATE_CREATED_PROPERTY = "dateCreated";
 
     public static final String GATHER_ARCHIVE_NODETYPE = "GatherArchive";
 
@@ -55,12 +50,12 @@ public class GatherArchiveNode extends AbstractGatherArchive implements GatherAr
 
     private Map<String, String> lazyMetadata;
 
-    GatherArchiveNode(Node underylingNode, Node metadataNode) {
+    GatherArchiveNodeWrapper(Node underylingNode, Node metadataNode) {
         this.underlyingNode = underylingNode;
         this.metadataNode = metadataNode;
     }
 
-    Node getUnderlyingNode() {
+    public Node getUnderlyingNode() {
         return this.underlyingNode;
     }
 
@@ -68,7 +63,7 @@ public class GatherArchiveNode extends AbstractGatherArchive implements GatherAr
         return (Serializable) underlyingNode.getProperty(CONTENT_PROPERTY);
     }
 
-    private void setContent(Serializable content) {
+    protected void setContent(Serializable content) {
         underlyingNode.setProperty(CONTENT_PROPERTY, content);
     }
 
@@ -79,7 +74,7 @@ public class GatherArchiveNode extends AbstractGatherArchive implements GatherAr
         return lazyDateCreated;
     }
 
-    private void setDateCreated(DateTime dateCreated) {
+    protected void setDateCreated(DateTime dateCreated) {
         underlyingNode.setProperty(DATE_CREATED_PROPERTY, dateCreated.getMillis());
     }
 
@@ -118,26 +113,8 @@ public class GatherArchiveNode extends AbstractGatherArchive implements GatherAr
         return lazyUid;
     }
 
-    private void setUid(URI uid) {
+    protected void setUid(URI uid) {
         underlyingNode.setProperty(UID_PROPERTY, uid.toASCIIString());
-    }
-
-    public static GatherArchiveNode deriveInstanceFrom(GatherArchive template, NeoService inGraph) {
-        Node archiveNode = inGraph.createNode();
-        archiveNode.setProperty(GATHER_NODETYPE_PROPERTY, GATHER_ARCHIVE_NODETYPE);
-        Node archiveMetadata = inGraph.createNode();
-        archiveMetadata.setProperty(GATHER_NODETYPE_PROPERTY, ARCHIVE_METADATA_NODETYPE);
-
-        Relationship relationship = archiveMetadata.createRelationshipTo(archiveNode,
-                ArchiveRelationships.METADATA_ABOUT);
-
-        GatherArchiveNode derivedInstance = new GatherArchiveNode(archiveNode, archiveMetadata);
-
-        derivedInstance.setUid(template.getUid());
-        derivedInstance.setContent(template.getContent());
-        derivedInstance.setDateCreated(template.getDateCreated());
-        derivedInstance.setMetadata(template.getMetadata());
-        return derivedInstance;
     }
 
 }
