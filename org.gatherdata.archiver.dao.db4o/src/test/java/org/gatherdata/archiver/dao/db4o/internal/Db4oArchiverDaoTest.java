@@ -1,4 +1,4 @@
-package org.gatherdata.archiver.dao.neo4j.internal;
+package org.gatherdata.archiver.dao.db4o.internal;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -34,8 +34,6 @@ import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.model.MutableGatherArchive;
 import org.gatherdata.archiver.core.spi.ArchiverDao;
 import org.gatherdata.archiver.core.spi.BaseArchiverDaoTest;
-import org.gatherdata.archiver.dao.neo4j.internal.ArchiverDaoNeo;
-import org.gatherdata.commons.db.neo4j.NeoServices;
 import org.gatherdata.commons.net.CbidFactory;
 import org.gatherdata.commons.net.GatherUrnFactory;
 import org.hamcrest.core.IsNot;
@@ -43,72 +41,48 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.neo4j.api.core.EmbeddedNeo;
-import org.neo4j.api.core.NeoService;
-import org.neo4j.api.core.Transaction;
-import org.neo4j.util.index.IndexService;
 
+import com.db4o.ObjectContainer;
+import com.db4o.osgi.Db4oService;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 /**
- * Unit tests for the behavior of the NeoArchiverDaoImpl.
+ * Unit tests for the behavior of the Db4oArchiverDao.
  *
  */
-public class NeoArchiverDaoImplTest extends BaseArchiverDaoTest {
+public class Db4oArchiverDaoTest extends BaseArchiverDaoTest {
 
     @Inject
-    NeoServices neo;
-        
-    int mockPlainTextCount = 0;
+    ObjectContainer db4o;
 
-    private Transaction transaction;
-    
     @Override
     protected ArchiverDao createStorageDaoImpl() {
-        ArchiverDao dao = new ArchiverDaoNeo();
+        ArchiverDao dao = new ArchiverDaoDb4o();
         
         // guice up the instance
-        Injector injector = Guice.createInjector(new NeoTestingModule());
+        Injector injector = Guice.createInjector(new Db4oTestingModule());
         injector.injectMembers(this);
         injector.injectMembers(dao);
         
-        ArchiverDaoNeo.log.setLevel(Level.ALL);
         return dao;
     }
     
     @After
-    public void shutdownNeo() {
-        String neoStoreDir = ((EmbeddedNeo)neo.neo()).getStoreDir();
-        neo.manualShutdown();
-        try {
-            FileUtils.cleanDirectory(new File(neoStoreDir));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void shutdownDatabase() {
+        db4o.commit();
+        db4o.close();
     }
-
-    @Override
-    protected GatherArchive createMockEntity() {
-        final String content = "mocked up plain text contents, for unit testing. item #" 
-            + Integer.toString(mockPlainTextCount++);
-        MutableGatherArchive mockEntity = new MutableGatherArchive();
-        mockEntity.setDateCreated(new DateTime()); 
-        mockEntity.setContent(content);
-        mockEntity.setUid(CbidFactory.createCbid(content));
-        return mockEntity;
-    }
-
+    
     @Override
     protected void beginTransaction() {
-        this.transaction = neo.neo().beginTx();
+        ;
     }
 
     @Override
     protected void endTransaction() {
-        this.transaction.success();
-        this.transaction.finish();
+        ;
     }
    
 }

@@ -41,8 +41,20 @@ import org.junit.Test;
  * Base unit tests for the behavior of ArchiverDao implementations.
  *
  */
-public abstract class BaseArchiverDaoTest extends BaseStorageDaoTest<GatherArchive, ArchiverDao>{
-
+public abstract class BaseArchiverDaoTest extends BaseStorageDaoTest<GatherArchive, ArchiverDao> {
     
+    int mockPlainTextCount = 0;
+
+    @Override
+    protected GatherArchive createMockEntity() {
+        final String content = "mocked up plain text contents, for unit testing. item #" 
+            + Integer.toString(mockPlainTextCount++);
+        MutableGatherArchive mockEntity = new MutableGatherArchive();
+        mockEntity.setDateCreated(new DateTime()); 
+        mockEntity.setContent(content);
+        mockEntity.setUid(CbidFactory.createCbid(content));
+        return mockEntity;
+    }
+
 
 }

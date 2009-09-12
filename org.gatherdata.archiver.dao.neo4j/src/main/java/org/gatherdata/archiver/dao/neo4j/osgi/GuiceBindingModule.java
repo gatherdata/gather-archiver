@@ -6,7 +6,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 import org.gatherdata.archiver.core.spi.ArchiverDao;
-import org.gatherdata.archiver.dao.neo4j.internal.NeoArchiverDaoImpl;
+import org.gatherdata.archiver.dao.neo4j.internal.ArchiverDaoNeo;
 import org.gatherdata.commons.db.neo4j.NeoServices;
 import org.neo4j.api.core.NeoService;
 import org.neo4j.util.NeoServiceLifecycle;
@@ -29,7 +29,7 @@ public class GuiceBindingModule extends AbstractModule {
 		bind(NeoServices.class).toProvider(service(NeoServices.class).single());
 		
 		// exports
-		bind(export(ArchiverDao.class)).toProvider(service(NeoArchiverDaoImpl.class).export());
+		bind(export(ArchiverDao.class)).toProvider(service(ArchiverDaoNeo.class).export());
 		
 	}
 	

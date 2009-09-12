@@ -22,9 +22,9 @@ import org.neo4j.util.timeline.Timeline;
 
 import com.google.inject.Inject;
 
-public class NeoArchiverDaoImpl implements ArchiverDao {
+public class ArchiverDaoNeo implements ArchiverDao {
 
-    public static Logger log = Logger.getLogger(NeoArchiverDaoImpl.class.getName());
+    public static Logger log = Logger.getLogger(ArchiverDaoNeo.class.getName());
 
     private NodeAdapter<GatherArchive, GatherArchiveNodeWrapper> nodeAdapter = new GatherArchiveNodeAdapter();
 
