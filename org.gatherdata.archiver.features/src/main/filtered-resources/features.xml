@@ -14,4 +14,9 @@
         <feature>gather-archiver.core</feature>
         <bundle>mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.dao.neo4j/${gather-archiver.version}</bundle>
     </feature>
+
+    <feature name="gather-archiver.db4o" version="${gather-archiver.version}">
+        <feature>gather-archiver.core</feature>
+        <bundle>mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.dao.db4o/${gather-archiver.version}</bundle>
+    </feature>
 </features>

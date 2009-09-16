@@ -6,18 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.gatherdata.archiver.core.model.GatherArchive;
+import org.gatherdata.commons.db.db4o.model.UniqueEntityDb4o;
 import org.gatherdata.commons.model.UniqueEntitySupport;
 import org.joda.time.DateTime;
 
-public class GatherArchiveDb4o implements GatherArchive {
-
-    private static final UniqueEntitySupport support = new UniqueEntitySupport();
+public class GatherArchiveDb4o extends UniqueEntityDb4o implements GatherArchive {
 
     private Serializable content;
     private Map<String, String> metadata;
-    private transient DateTime lazyDateCreated;
-    private long dateCreatedMillis;
-    private URI uid;
 
     public Serializable getContent() {
         return this.content;
@@ -34,31 +30,6 @@ public class GatherArchiveDb4o implements GatherArchive {
         return this.metadata;
     }
 
-    public DateTime getDateCreated() {
-        if (lazyDateCreated == null) {
-            lazyDateCreated = new DateTime(dateCreatedMillis);
-        }
-        return lazyDateCreated;
-    }
-    
-    
-
-    public long getDateCreatedMillis() {
-        return dateCreatedMillis;
-    }
-
-    public void setDateCreatedMillis(long dateCreatedMillis) {
-        this.dateCreatedMillis = dateCreatedMillis;
-    }
-
-    public URI getUid() {
-        return this.uid;
-    }
-    
-    public void setUid(URI uid) {
-        this.uid = uid;
-    }
-
     public static GatherArchive deriveInstanceFrom(GatherArchive template) {
         GatherArchiveDb4o derivedInstance = new GatherArchiveDb4o();
 
@@ -71,7 +42,6 @@ public class GatherArchiveDb4o implements GatherArchive {
         return derivedInstance;
     }
     
-
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof GatherArchive)) return false;

@@ -41,10 +41,6 @@
         <dependency>
             <groupId>org.gatherdata.gather-commons</groupId>
             <artifactId>org.gatherdata.commons.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.gatherdata.gather-commons</groupId>
-            <artifactId>org.gatherdata.commons.core</artifactId>
             <classifier>testing</classifier>
         </dependency>
         <dependency>

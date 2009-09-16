@@ -37,7 +37,7 @@
       <neo4j.remote-neo.version>0.2</neo4j.remote-neo.version>
       <neo4j.neo-utils.version>1.0-b9</neo4j.neo-utils.version>
       <neo4j.neo-component-commons.version>0.2</neo4j.neo-component-commons.version>
-      <db4o.version>7.11-SNAPSHOT</db4o.version>
+      <db4o.version>7.11</db4o.version>
 
   </properties>
 
