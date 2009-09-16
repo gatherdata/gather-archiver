@@ -13,6 +13,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 /**
  * Extension of the default OSGi bundle activator
@@ -30,7 +31,10 @@ public final class OSGiActivator
     public void start( BundleContext bc )
         throws Exception
     {
-        createInjector(osgiModule(bc), new GuiceBindingModule()).injectMembers(this);
+        Injector serviceGuicer = createInjector(osgiModule(bc), new GuiceBindingModule());
+        ArchiverDaoModule daoModule = new ArchiverDaoModule();
+        serviceGuicer.injectMembers(daoModule);
+        createInjector(osgiModule(bc), daoModule).injectMembers(this);
 
     }
 

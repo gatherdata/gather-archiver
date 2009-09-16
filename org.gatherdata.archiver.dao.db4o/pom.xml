@@ -107,8 +107,13 @@
         </dependency>
         <dependency>
             <groupId>org.gatherdata.gather-commons</groupId>
-            <artifactId>org.gatherdata.commons.db.db4o</artifactId>
+            <artifactId>org.gatherdata.commons.db.db4o.osgi</artifactId>
             <version>${db4o.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gatherdata.gather-commons</groupId>
+            <artifactId>org.gatherdata.commons.db.db4o</artifactId>
+            <version>${gather-commons.version}</version>
         </dependency>
 
     </dependencies>

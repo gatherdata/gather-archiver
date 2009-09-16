@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.spi.ArchiverDao;
+import org.gatherdata.archiver.dao.db4o.model.GatherArchiveDb4o;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -46,9 +47,9 @@ public final class ArchiverDaoDb4o implements ArchiverDao {
         GatherArchive foundEntity = null;
         
         final URI queryUid = uid;
-        ObjectSet<GatherArchive> result = db4o.query(new Predicate<GatherArchive>() {
+        ObjectSet<GatherArchiveDb4o> result = db4o.query(new Predicate<GatherArchiveDb4o>() {
             @Override
-            public boolean match(GatherArchive possibleMatch) {
+            public boolean match(GatherArchiveDb4o possibleMatch) {
                 return possibleMatch.getUid().equals(queryUid);
             }
         });
@@ -62,8 +63,8 @@ public final class ArchiverDaoDb4o implements ArchiverDao {
         return foundEntity;
     }
 
-    public Iterable<GatherArchive> getAll() {
-        return db4o.query(GatherArchive.class);
+    public Iterable<? extends GatherArchive> getAll() {
+        return db4o.query(GatherArchiveDb4o.class);
     }
 
     public void remove(URI uid) {
@@ -72,7 +73,7 @@ public final class ArchiverDaoDb4o implements ArchiverDao {
     }
 
     public GatherArchive save(GatherArchive entityToSave) {
-        db4o.store(entityToSave);
+        db4o.store(GatherArchiveDb4o.deriveInstanceFrom(entityToSave));
         return get(entityToSave.getUid());
     }
 }

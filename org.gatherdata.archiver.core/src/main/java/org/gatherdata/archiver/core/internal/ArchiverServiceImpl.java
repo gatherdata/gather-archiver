@@ -36,7 +36,7 @@ public class ArchiverServiceImpl implements ArchiverService {
 
 	public Iterable<GatherArchive> getAll() {
 	    dao.beginTransaction();
-	    Iterable<GatherArchive> allArchives = dao.getAll();
+	    Iterable<GatherArchive> allArchives = (Iterable<GatherArchive>) dao.getAll();
 	    dao.endTransaction();
 		return allArchives;
 	}
