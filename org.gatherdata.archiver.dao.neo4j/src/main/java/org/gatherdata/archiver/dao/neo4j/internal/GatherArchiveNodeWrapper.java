@@ -74,7 +74,8 @@ public class GatherArchiveNodeWrapper extends AbstractGatherArchive implements G
         return lazyDateCreated;
     }
 
-    protected void setDateCreated(DateTime dateCreated) {
+    @Override
+    public void setDateCreated(DateTime dateCreated) {
         underlyingNode.setProperty(DATE_CREATED_PROPERTY, dateCreated.getMillis());
     }
 
@@ -113,7 +114,8 @@ public class GatherArchiveNodeWrapper extends AbstractGatherArchive implements G
         return lazyUid;
     }
 
-    protected void setUid(URI uid) {
+    @Override
+    public void setUid(URI uid) {
         underlyingNode.setProperty(UID_PROPERTY, uid.toASCIIString());
     }
 

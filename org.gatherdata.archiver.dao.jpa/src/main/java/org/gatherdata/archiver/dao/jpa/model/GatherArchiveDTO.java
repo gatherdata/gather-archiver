@@ -35,8 +35,6 @@ public class GatherArchiveDTO extends AbstractGatherArchive implements GatherArc
     @Column(name = "UID")
     private String uidAsString;
 
-    private DateTime dateCreated;
-
     private Serializable content;
 
     @OneToMany
@@ -47,10 +45,6 @@ public class GatherArchiveDTO extends AbstractGatherArchive implements GatherArc
 
     @Transient
     private URI uid;
-
-    private void setDateCreated(DateTime dateCreated) {
-        this.dateCreated = dateCreated;
-    }
 
     private void setContent(Serializable content) {
         this.content = content;
@@ -87,7 +81,8 @@ public class GatherArchiveDTO extends AbstractGatherArchive implements GatherArc
         return uid;
     }
 
-    private void setUid(URI uid) {
+    @Override
+    public void setUid(URI uid) {
         this.uidAsString = uid.toASCIIString();
         this.uid = uid;
     }

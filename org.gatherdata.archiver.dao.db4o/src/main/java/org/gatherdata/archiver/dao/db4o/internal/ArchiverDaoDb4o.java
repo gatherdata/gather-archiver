@@ -34,8 +34,7 @@ public final class ArchiverDaoDb4o implements ArchiverDao {
     }
 
     public void endTransaction() {
-        // TODO Auto-generated method stub
-
+        db4o.commit();
     }
 
     public boolean exists(URI uid) {
@@ -69,11 +68,16 @@ public final class ArchiverDaoDb4o implements ArchiverDao {
 
     public void remove(URI uid) {
         db4o.delete(get(uid));
-
     }
 
     public GatherArchive save(GatherArchive entityToSave) {
-        db4o.store(GatherArchiveDb4o.deriveInstanceFrom(entityToSave));
+        GatherArchiveDb4o entityDto = (GatherArchiveDb4o) get(entityToSave.getUid());
+        if (entityDto == null) {
+            entityDto = new GatherArchiveDb4o();
+        }
+        entityDto.copy(entityToSave);
+        db4o.store(entityDto);
+        
         return get(entityToSave.getUid());
     }
 }

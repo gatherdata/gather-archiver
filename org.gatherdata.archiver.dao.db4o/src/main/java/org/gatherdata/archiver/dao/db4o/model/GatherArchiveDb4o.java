@@ -18,7 +18,7 @@ public class GatherArchiveDb4o extends UniqueEntityDb4o implements GatherArchive
     public Serializable getContent() {
         return this.content;
     }
-    
+
     public void setContent(Serializable content) {
         this.content = content;
     }
@@ -30,28 +30,32 @@ public class GatherArchiveDb4o extends UniqueEntityDb4o implements GatherArchive
         return this.metadata;
     }
 
-    public static GatherArchive deriveInstanceFrom(GatherArchive template) {
-        GatherArchiveDb4o derivedInstance = new GatherArchiveDb4o();
-
-        derivedInstance.setUid(template.getUid());
-        derivedInstance.setContent(template.getContent());
-        derivedInstance.setDateCreatedMillis(template.getDateCreated().getMillis());
-        
-        derivedInstance.getMetadata().putAll(template.getMetadata());
-        
-        return derivedInstance;
+    public void copy(GatherArchive template) {
+        if ((template != null) && (template != this)) {
+            super.copy(template);
+            setContent(template.getContent());
+            getMetadata().clear();
+            getMetadata().putAll(template.getMetadata());
+        }
     }
-    
+
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof GatherArchive)) return false;
-        GatherArchive rhs = (GatherArchive)obj;
+        if (!(obj instanceof GatherArchive))
+            return false;
+        GatherArchive rhs = (GatherArchive) obj;
         return support.equals(this, rhs);
     }
 
     @Override
     public int hashCode() {
         return support.hashCode(this);
-    }    
+    }
 
+    @Override
+    public String toString() {
+        return "GatherArchiveDb4o [uid=" + uid + "]";
+    }
+
+    
 }
