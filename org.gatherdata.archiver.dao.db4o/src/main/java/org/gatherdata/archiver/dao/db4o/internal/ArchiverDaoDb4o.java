@@ -65,6 +65,10 @@ public final class ArchiverDaoDb4o implements ArchiverDao {
     public Iterable<? extends GatherArchive> getAll() {
         return db4o.query(GatherArchiveDb4o.class);
     }
+    
+    public int getCount() {
+        return db4o.query(GatherArchiveDb4o.class).size();
+    }
 
     public void remove(URI uid) {
         db4o.delete(get(uid));

@@ -110,6 +110,12 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
         return this.em.createQuery("select obj from GatherArchiveDTO obj").getResultList();
     }
 
+    public int getCount() {
+        Query q = em.createQuery("SELECT COUNT(obj) FROM GatherArchiveDTO obj");
+        Number result = (Number) q.getSingleResult();
+        return result.intValue();
+    }
+    
     public void remove(URI archiveIdentifiedBy) {
         beginTransaction();
         GatherArchive entityToRemove = get(archiveIdentifiedBy);

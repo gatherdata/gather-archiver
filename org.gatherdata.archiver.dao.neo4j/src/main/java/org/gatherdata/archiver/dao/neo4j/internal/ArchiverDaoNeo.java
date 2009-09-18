@@ -60,6 +60,16 @@ public class ArchiverDaoNeo implements ArchiverDao {
 
         return new IterableNodeWrapper(neo.neo(), allNodes, nodeAdapter);
     }
+    
+    public int getCount() {
+        int count = 0;
+        for(Node n : neo.indexService().getNodes(GatherArchiveNodeWrapper.GATHER_NODETYPE_PROPERTY,
+                GatherArchiveNodeWrapper.GATHER_ARCHIVE_NODETYPE)) {
+            count++;
+        }
+        
+        return count;
+    }
 
     public void remove(URI uid) {
         Node foundNode = neo.indexService().getSingleNode(GatherArchiveNodeWrapper.UID_PROPERTY, uid.toASCIIString());

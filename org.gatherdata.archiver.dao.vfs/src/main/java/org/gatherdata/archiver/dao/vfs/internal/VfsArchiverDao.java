@@ -68,6 +68,15 @@ public class VfsArchiverDao implements ArchiverDao {
 		}
 		return allEnvelopes;
 	}
+	
+	public int getCount() {
+	    try {
+            return fsBase.getChildren().length;
+        } catch (FileSystemException e) {
+            e.printStackTrace();
+        }
+        return -1;
+	}
 
 	public void remove(URI uid) {
 		try {

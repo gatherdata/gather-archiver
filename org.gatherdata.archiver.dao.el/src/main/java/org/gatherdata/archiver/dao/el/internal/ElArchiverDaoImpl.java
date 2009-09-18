@@ -198,6 +198,10 @@ public class ElArchiverDaoImpl implements ArchiverDao {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    public int getCount() {
+        return 0;
+    }
 
 
     public void remove(URI arg0) {
