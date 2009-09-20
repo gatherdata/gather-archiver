@@ -38,9 +38,7 @@ public class OSGiActivator implements BundleActivator {
 	public void start(BundleContext bc) {
 		
 		createInjector(osgiModule(bc), new GuiceBindingModule()).injectMembers(this);
-		
-		log.info("Gather Archiver started");
-	}
+			}
 
 	/**
 	 * Implements BundleActivator.stop(). Prints a message and removes itself
@@ -50,7 +48,7 @@ public class OSGiActivator implements BundleActivator {
 	 *            the framework context for the bundle.
 	 **/
 	public void stop(BundleContext context) {
-		log.info("Gather Archiver started");
+	    ;
 	}
 	
 }

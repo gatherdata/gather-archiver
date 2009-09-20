@@ -54,7 +54,7 @@ public class GatherArchiveDb4o extends UniqueEntityDb4o implements GatherArchive
 
     @Override
     public String toString() {
-        return "GatherArchiveDb4o [uid=" + uid + "]";
+        return "GatherArchive [uid=" + uidAsAscii + "]";
     }
 
     
