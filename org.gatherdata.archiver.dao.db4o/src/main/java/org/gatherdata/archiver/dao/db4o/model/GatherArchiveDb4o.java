@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.commons.db.db4o.model.UniqueEntityDb4o;
-import org.gatherdata.commons.model.UniqueEntitySupport;
+import org.gatherdata.commons.model.impl.UniqueEntitySupport;
 import org.joda.time.DateTime;
 
 public class GatherArchiveDb4o extends UniqueEntityDb4o implements GatherArchive {

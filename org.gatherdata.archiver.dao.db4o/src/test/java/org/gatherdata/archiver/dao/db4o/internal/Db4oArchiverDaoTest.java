@@ -26,8 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import javax.swing.filechooser.FileSystemView;
-
 import org.apache.commons.io.FileUtils;
 import org.easymock.internal.matchers.Contains;
 import org.gatherdata.archiver.core.model.GatherArchive;

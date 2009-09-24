@@ -5,7 +5,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.gatherdata.commons.model.UniqueEntitySupport;
+import org.gatherdata.commons.model.impl.UniqueEntitySupport;
 import org.joda.time.DateTime;
 
 public class MutableGatherArchive extends AbstractGatherArchive implements GatherArchive {
