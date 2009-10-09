@@ -13,14 +13,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.gatherdata.archiver.core.model.AbstractGatherArchive;
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.model.MutableGatherArchive;
 import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "ARCHIVE")
-public class GatherArchiveDTO extends AbstractGatherArchive implements GatherArchive {
+public class GatherArchiveDTO extends MutableGatherArchive implements GatherArchive {
 
     /**
      * 
@@ -35,8 +34,6 @@ public class GatherArchiveDTO extends AbstractGatherArchive implements GatherArc
     @Column(name = "UID")
     private String uidAsString;
 
-    private Serializable content;
-
     @OneToMany
     private Map<String, MetadataDTO> metadata;
 
@@ -45,14 +42,6 @@ public class GatherArchiveDTO extends AbstractGatherArchive implements GatherArc
 
     @Transient
     private URI uid;
-
-    private void setContent(Serializable content) {
-        this.content = content;
-    }
-
-    public Serializable getContent() {
-        return content;
-    }
 
     public DateTime getDateCreated() {
         return dateCreated;

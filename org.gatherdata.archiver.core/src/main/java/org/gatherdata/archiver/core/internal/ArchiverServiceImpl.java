@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.gatherdata.archiver.core.model.GatherArchive;
+import org.gatherdata.archiver.core.model.MutableGatherArchive;
 import org.gatherdata.archiver.core.spi.ArchiverDao;
 import org.gatherdata.archiver.core.spi.ArchiverService;
 
@@ -49,5 +50,16 @@ public class ArchiverServiceImpl implements ArchiverService {
 	    GatherArchive savedInstance = dao.save(instance);
 		return savedInstance;
 	}
+
+    public void update(GatherArchive instance) {
+        URI uidToUpdate = instance.getUid();
+        if (uidToUpdate != null) {
+            GatherArchive currentEntity = get(uidToUpdate);
+            MutableGatherArchive transferEntity = new MutableGatherArchive();
+            transferEntity.copy(currentEntity);
+            transferEntity.update(instance);
+            dao.save(transferEntity);
+        }
+    }
 
 }

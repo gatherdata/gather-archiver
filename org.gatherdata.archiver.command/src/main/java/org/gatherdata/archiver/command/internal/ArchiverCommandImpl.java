@@ -1,6 +1,8 @@
 package org.gatherdata.archiver.command.internal;
 
 import java.io.PrintStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +42,7 @@ public class ArchiverCommandImpl implements Command {
             if ("help".equals(subCommand)) {
                 out.println("subcommands: list, mock");
                 out.println("\tlist - show saved archives");
+                out.println("\tprint <uid> - print the content of archive <uid>");
                 out.println("\tmock - generate and save mock data");
             } else if ("mock".equals(subCommand)) {
                 GatherArchive mockEntity = createMockEntity();
@@ -48,8 +51,18 @@ public class ArchiverCommandImpl implements Command {
                 for (GatherArchive savedArchive : archiverService.getAll()) {
                     out.println(savedArchive);
                 }
+            } else if ("print".equals(subCommand)) {
+                URI requestedUid = null;
+                try {
+                    requestedUid = new URI(subArguments);
+                    GatherArchive requestedArchive = archiverService.get(requestedUid);
+                    out.println(requestedArchive.getContent().toString());
+                } catch (URISyntaxException e) {
+                    err.println("Bad archive uid: " + subArguments);
+                }
+                
             } else {
-               err.println("Don't know how to respond to " + subCommand);
+                err.println("Don't know how to respond to " + subCommand);
             }
         } else {
             err.println("Sorry, can't parse:" + argString);
@@ -58,10 +71,12 @@ public class ArchiverCommandImpl implements Command {
 
     private GatherArchive createMockEntity() {
         MutableGatherArchive mockArchive = new MutableGatherArchive();
-        String mockContent = "mock content #" + mockContentCounter++;
+        String mockContent = "<mock id=\"" + mockContentCounter
+                + "\">\n\t<message>this is not real data</message>\n</mock>";
         mockArchive.setContent(mockContent);
         mockArchive.setDateCreated(new DateTime());
         mockArchive.setUid(CbidFactory.createCbid(mockContent));
+        mockContentCounter++;
         return mockArchive;
     }
 

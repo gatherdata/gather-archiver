@@ -5,23 +5,23 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.gatherdata.commons.model.DescribedEntity;
+import org.gatherdata.commons.model.impl.DescribedEntitySupport;
+import org.gatherdata.commons.model.impl.MutableDescribedEntity;
 import org.gatherdata.commons.model.impl.UniqueEntitySupport;
 import org.joda.time.DateTime;
 
-public class MutableGatherArchive extends AbstractGatherArchive implements GatherArchive {
+public class MutableGatherArchive extends MutableDescribedEntity implements GatherArchive {
 
     /**
      * 
      */
     private static final long serialVersionUID = -2032179948032352681L;
     
-    private static final UniqueEntitySupport support = new UniqueEntitySupport();
+    private static final DescribedEntitySupport support = new DescribedEntitySupport();
     
     private Serializable content;
-    private DateTime dateCreated;
     private Map<String, String> metadata;
-
-    private URI uid;
 
     public Serializable getContent() {
         return content;
@@ -31,27 +31,34 @@ public class MutableGatherArchive extends AbstractGatherArchive implements Gathe
         this.content = content;
     }
 
-    public DateTime getDateCreated() {
-        return dateCreated;
-    }
-    
-    public void setDateCreated(DateTime dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public URI getUid() {
-        return uid;
-    }
-    
-    public void setUid(URI uid) {
-        this.uid = uid;
-    }
-
     public Map<String, String> getMetadata() {
         if (metadata == null) {
             metadata = new HashMap<String, String>();
         }
         return metadata;
+    }
+
+    public GatherArchive copy(GatherArchive template) {
+        if (template != null) {
+            super.copy(template);
+            setContent(template.getContent());
+            metadata.clear();
+            metadata.putAll(template.getMetadata());
+        }
+        return this;
+    }
+
+    public GatherArchive update(GatherArchive template) {
+        if (template != null) {
+            super.update(template);
+            Serializable updatedContent = template.getContent();
+            if (updatedContent != null) setContent(updatedContent);
+            Map<String, String> updatedMetadata = template.getMetadata();
+            if (updatedMetadata != null) {
+                metadata.putAll(updatedMetadata);
+            }       
+        }
+        return this;
     }
 
     @Override
@@ -65,7 +72,6 @@ public class MutableGatherArchive extends AbstractGatherArchive implements Gathe
     public int hashCode() {
         return support.hashCode(this);
     }    
-    
     
     
 }

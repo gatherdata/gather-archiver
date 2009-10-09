@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.gatherdata.archiver.core.model.AbstractGatherArchive;
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.model.MutableGatherArchive;
 import org.gatherdata.commons.model.neo4j.GatherNodeWrapper;
@@ -20,7 +19,7 @@ import org.neo4j.api.core.NotFoundException;
 import org.neo4j.api.core.Relationship;
 import org.neo4j.api.core.RelationshipType;
 
-public class GatherArchiveNodeWrapper extends AbstractGatherArchive implements GatherArchive, GatherNodeWrapper {
+public class GatherArchiveNodeWrapper implements GatherArchive, GatherNodeWrapper {
 
     private static Logger log = Logger.getLogger(GatherArchiveNodeWrapper.class.getName());
     
@@ -74,7 +73,6 @@ public class GatherArchiveNodeWrapper extends AbstractGatherArchive implements G
         return lazyDateCreated;
     }
 
-    @Override
     public void setDateCreated(DateTime dateCreated) {
         underlyingNode.setProperty(DATE_CREATED_PROPERTY, dateCreated.getMillis());
     }
@@ -114,7 +112,6 @@ public class GatherArchiveNodeWrapper extends AbstractGatherArchive implements G
         return lazyUid;
     }
 
-    @Override
     public void setUid(URI uid) {
         underlyingNode.setProperty(UID_PROPERTY, uid.toASCIIString());
     }
