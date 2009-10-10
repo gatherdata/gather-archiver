@@ -35,7 +35,7 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
 
     private final Logger log = Logger.getLogger(JpaArchiverDaoImpl.class.getName());
 
-    private String persistenceUnitName = null;
+    protected String persistenceUnitName = "archiver-hsql-server";
 
     private EntityManagerFactory emf;
 
@@ -46,16 +46,8 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
 
     private EntityTransaction currentTransaction;
 
-
-    /**
-     * Constructor that takes in a class to see which type of entity to persist.
-     * Use this constructor when subclassing or using dependency injection.
-     * 
-     * @param persistenceUnitName name of the persistenceUnit from 
-     *  which an EntityManager will be derived
-     */
-    public JpaArchiverDaoImpl(String persistenceUnitName) {
-        this.persistenceUnitName = persistenceUnitName;
+    public JpaArchiverDaoImpl() {
+        ;
     }
 
     public void beginTransaction() {
@@ -83,16 +75,18 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
     }
 
     public boolean exists(URI archiveIdentifiedByUid) {
-        Query q = this.em
+        Query q = getEntityManager()
                 .createQuery("SELECT COUNT(arc) FROM GatherArchiveDTO arc WHERE arc.uidAsString = :uidOfArchive");
         q.setParameter("uidOfArchive", archiveIdentifiedByUid.toASCIIString());
 
         Long result = (Long) q.getSingleResult();
+        
+        System.out.println("exists: query [" + q + "] returned " + result);
         return (result != 0);
     }
 
     public GatherArchive get(URI archiveIdentifiedByUid) {
-        GatherArchiveDTO entity = this.em.find(GatherArchiveDTO.class, 
+        GatherArchiveDTO entity = getEntityManager().find(GatherArchiveDTO.class, 
                 archiveIdentifiedByUid.toASCIIString());
 
         if (entity == null) {
@@ -107,7 +101,7 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
 
     @SuppressWarnings("unchecked")
     public List<GatherArchive> getAll() {
-        return this.em.createQuery("select obj from GatherArchiveDTO obj").getResultList();
+        return getEntityManager().createQuery("select obj from GatherArchiveDTO obj").getResultList();
     }
 
     public int getCount() {
@@ -119,20 +113,18 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
     public void remove(URI archiveIdentifiedBy) {
         beginTransaction();
         GatherArchive entityToRemove = get(archiveIdentifiedBy);
-        this.em.remove(entityToRemove);
+        getEntityManager().remove(entityToRemove);
         endTransaction();
     }
 
     public GatherArchive save(GatherArchive entityToSave) {
         GatherArchive savedEntity = null;
         if (entityToSave != null) {
-            GatherArchiveDTO saveableEntity = GatherArchiveDTO.deriveInstanceFrom(entityToSave);
+            GatherArchiveDTO saveableEntity = new GatherArchiveDTO().copy(entityToSave);
+            saveableEntity.selfIdentify();
 
-            beginTransaction();
+            savedEntity = getEntityManager().merge(saveableEntity);
 
-            savedEntity = this.em.merge(saveableEntity);
-
-            endTransaction();
         }
         return savedEntity;
     }
@@ -147,6 +139,7 @@ public class JpaArchiverDaoImpl implements ArchiverDao, ManagedService {
             // ignore it
         } else {
             // apply configuration from config admin
+            
         }
         
     }

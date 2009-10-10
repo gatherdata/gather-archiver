@@ -3,6 +3,7 @@ package org.gatherdata.archiver.command.internal;
 import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +18,7 @@ import com.google.inject.Inject;
 
 public class ArchiverCommandImpl implements Command {
 
-    public static final String COMMAND_NAME = "archiver";
+    public static final String COMMAND_NAME = "archive";
 
     private final Pattern commandPattern = Pattern.compile("^(\\w+)\\s*(\\w+)\\s*(.*)");
 
@@ -40,9 +41,10 @@ public class ArchiverCommandImpl implements Command {
             }
 
             if ("help".equals(subCommand)) {
-                out.println("subcommands: list, mock");
+                out.println("subcommands: list, print, meta, mock");
                 out.println("\tlist - show saved archives");
                 out.println("\tprint <uid> - print the content of archive <uid>");
+                out.println("\tmeta <uid> - show the metaata for archive <uid>");
                 out.println("\tmock - generate and save mock data");
             } else if ("mock".equals(subCommand)) {
                 GatherArchive mockEntity = createMockEntity();
@@ -56,7 +58,32 @@ public class ArchiverCommandImpl implements Command {
                 try {
                     requestedUid = new URI(subArguments);
                     GatherArchive requestedArchive = archiverService.get(requestedUid);
-                    out.println(requestedArchive.getContent().toString());
+                    if (requestedArchive != null) {
+                        out.println(requestedArchive.getContent());
+                    } else {
+                        err.println("Requested archive not found.");
+                    }
+                } catch (URISyntaxException e) {
+                    err.println("Bad archive uid: " + subArguments);
+                }
+                
+            } else if ("meta".equals(subCommand)) {
+                URI requestedUid = null;
+                try {
+                    requestedUid = new URI(subArguments);
+                    GatherArchive requestedArchive = archiverService.get(requestedUid);
+                    if (requestedArchive != null) {
+                        Map<String, String> metadata = requestedArchive.getMetadata();
+                        if (metadata != null) {
+                            for (String key : metadata.keySet()) {
+                                System.out.println(key  + " : " + metadata.get(key));
+                            }
+                        } else {
+                            System.out.println("No metadata for " + requestedUid);
+                        }
+                    } else {
+                        err.println("Requested archive not found.");
+                    }
                 } catch (URISyntaxException e) {
                     err.println("Bad archive uid: " + subArguments);
                 }
@@ -76,6 +103,7 @@ public class ArchiverCommandImpl implements Command {
         mockArchive.setContent(mockContent);
         mockArchive.setDateCreated(new DateTime());
         mockArchive.setUid(CbidFactory.createCbid(mockContent));
+        mockArchive.getMetadata().put("mock-meta-header", "mock/archive");
         mockContentCounter++;
         return mockArchive;
     }

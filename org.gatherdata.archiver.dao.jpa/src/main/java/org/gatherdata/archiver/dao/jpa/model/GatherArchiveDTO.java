@@ -3,36 +3,44 @@ package org.gatherdata.archiver.dao.jpa.model;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.model.MutableGatherArchive;
+import org.gatherdata.commons.model.impl.UniqueEntitySupport;
+import org.gatherdata.commons.net.CbidFactory;
 import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "ARCHIVE")
-public class GatherArchiveDTO extends MutableGatherArchive implements GatherArchive {
+public class GatherArchiveDTO implements GatherArchive {
 
     /**
      * 
      */
     private static final long serialVersionUID = -3621945065615956862L;
 
-    public GatherArchiveDTO() {
-        ;
-    }
+    protected static final UniqueEntitySupport support = new UniqueEntitySupport();
 
     @Id
     @Column(name = "UID")
     private String uidAsString;
+
+    @Transient
+    private URI lazyuid;
 
     @OneToMany
     private Map<String, MetadataDTO> metadata;
@@ -40,11 +48,50 @@ public class GatherArchiveDTO extends MutableGatherArchive implements GatherArch
     @Transient
     private Map<String, String> lazyMetadata;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE_CREATED")
+    private Calendar dateCreatedAsCalendar;
+
     @Transient
-    private URI uid;
+    private DateTime lazyDateCreated;
+
+    @Lob
+    @Column(name = "CONTENT")
+    private Serializable content;
+
+    public GatherArchiveDTO() {
+        ;
+    }
+
+    public URI getUid() {
+        if (lazyuid == null) {
+            try {
+                this.lazyuid = new URI(uidAsString);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        return lazyuid;
+    }
+
+    public void setUid(URI uid) {
+        this.uidAsString = uid.toASCIIString();
+        this.lazyuid = uid;
+    }
 
     public DateTime getDateCreated() {
-        return dateCreated;
+        if ((lazyDateCreated == null) && (dateCreatedAsCalendar != null)) {
+            lazyDateCreated = new DateTime(dateCreatedAsCalendar.getTimeInMillis());
+        }
+        return lazyDateCreated;
+    }
+
+    public void setDateCreated(DateTime dateCreated) {
+        this.lazyDateCreated = dateCreated;
+        if (dateCreatedAsCalendar == null) {
+            dateCreatedAsCalendar = new GregorianCalendar();
+        }
+        dateCreatedAsCalendar.setTimeInMillis(dateCreated.getMillis());
     }
 
     public Map<String, String> getMetadata() {
@@ -59,35 +106,73 @@ public class GatherArchiveDTO extends MutableGatherArchive implements GatherArch
         return lazyMetadata;
     }
 
-    public URI getUid() {
-        if (uid == null) {
-            try {
-                this.uid = new URI(uidAsString);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
+    public Serializable getContent() {
+        return content;
+    }
+
+    public void setContent(Serializable content) {
+        this.content = content;
+    }
+
+    public GatherArchiveDTO copy(GatherArchive template) {
+        if (template != null) {
+            setUid(template.getUid());
+            setContent(template.getContent());
+            DateTime dateCreated = template.getDateCreated();
+            if (dateCreated == null) {
+                dateCreated = new DateTime();
+            }
+            setDateCreated(dateCreated);
+            lazyMetadata = null;
+            Map<String, String> templateMetadata = template.getMetadata();
+            if (templateMetadata != null) {
+                metadata = new HashMap<String, MetadataDTO>();
+                for (String templateMetaKey : templateMetadata.keySet()) {
+                    MetadataDTO newMeta = new MetadataDTO();
+                    newMeta.value  = templateMetadata.get(templateMetaKey);
+                    newMeta.key = templateMetaKey;
+                    metadata.put(templateMetaKey, newMeta);
+                }
             }
         }
-        return uid;
+        return this;
+    }
+
+    public GatherArchiveDTO update(GatherArchive template) {
+        if (template != null) {
+            ; // ABKTODO: implement, or deprecate
+        }
+        return this;
+    }
+
+    public URI selfIdentify() {
+        if (dateCreatedAsCalendar == null) {
+            dateCreatedAsCalendar = GregorianCalendar.getInstance();
+        }
+        URI selfId = CbidFactory.createCbid(GatherArchive.class.getSimpleName() + getDateCreated() + Integer.toHexString(hashCode()));
+        if (this.getUid() == null) {
+            setUid(selfId);
+        }
+        return selfId;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof GatherArchive)) return false;
+        GatherArchive rhs = (GatherArchive)obj;
+        return support.equals(this, rhs);
     }
 
     @Override
-    public void setUid(URI uid) {
-        this.uidAsString = uid.toASCIIString();
-        this.uid = uid;
-    }
-    
-    public static GatherArchiveDTO deriveInstanceFrom(GatherArchive template) {
-        GatherArchiveDTO dto = new GatherArchiveDTO();
-        dto.setUid(template.getUid());
-        dto.setContent(template.getContent());
-        DateTime dateCreated = template.getDateCreated();
-        if (dateCreated == null) {
-            dateCreated = new DateTime();
-        }
-        dto.setDateCreated(dateCreated);
-        dto.getMetadata().putAll(template.getMetadata());
-        return dto;
+    public int hashCode() {
+        return support.hashCode(this);
     }
 
+    @Override
+    public String toString() {
+        return "GatherArchive [uid=" + getUid() + ", dateCreated=" + getDateCreated() +  "]";
+    }
+
+    
 
 }

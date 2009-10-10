@@ -3,4 +3,5 @@
 #-----------------------------------------------------------------
 
 Bundle-Activator: ${bundle.namespace}.osgi.OSGiActivator
-JPA-PersistenceUnits: eclipselinkInMemory, hibernateInMemory
+DynamicImport-Package: org.hsqldb
+JPA-PersistenceUnits: archiver-hsql-memory,archiver-hsql-server,archiver-hibernate

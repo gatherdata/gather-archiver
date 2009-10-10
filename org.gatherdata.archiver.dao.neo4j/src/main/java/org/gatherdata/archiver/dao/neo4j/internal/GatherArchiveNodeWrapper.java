@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.gatherdata.archiver.core.model.GatherArchive;
 import org.gatherdata.archiver.core.model.MutableGatherArchive;
 import org.gatherdata.commons.model.neo4j.GatherNodeWrapper;
+import org.gatherdata.commons.net.CbidFactory;
 import org.joda.time.DateTime;
 import org.neo4j.api.core.Direction;
 import org.neo4j.api.core.NeoService;
@@ -114,6 +115,17 @@ public class GatherArchiveNodeWrapper implements GatherArchive, GatherNodeWrappe
 
     public void setUid(URI uid) {
         underlyingNode.setProperty(UID_PROPERTY, uid.toASCIIString());
+    }
+
+    public URI selfIdentify() {
+        if (getDateCreated() == null) {
+            setDateCreated(new DateTime());
+        }
+        URI selfId = CbidFactory.createCbid(getDateCreated() + Integer.toHexString(hashCode()));
+        if (this.getUid() == null) {
+            setUid(selfId);
+        }
+        return selfId;
     }
 
 }

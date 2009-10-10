@@ -60,7 +60,8 @@ public class JpaArchiverDaoImplTest extends BaseArchiverDaoTest {
 
     @Override
     protected ArchiverDao createStorageDaoImpl() {
-        JpaArchiverDaoImpl dao = new JpaArchiverDaoImpl("hibernateInMemory");
+        JpaArchiverDaoImpl dao = new JpaArchiverDaoImpl();
+        dao.persistenceUnitName = "archiver-hibernate";
         
         // guice up the instance
         Injector injector = Guice.createInjector(new JpaTestingModule());
@@ -91,6 +92,15 @@ public class JpaArchiverDaoImplTest extends BaseArchiverDaoTest {
     @Override
     protected void endTransaction() {
         tx.commit();
+    }
+    
+    /**
+     * Must have at least one test here to convince Eclipse that
+     * there are tests to run.
+     */
+    @Test
+    public void shouldRunParentTestsInEclipse() {
+        assertTrue(true);
     }
    
 }
