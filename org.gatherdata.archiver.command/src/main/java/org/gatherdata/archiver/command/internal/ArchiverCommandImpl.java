@@ -41,9 +41,9 @@ public class ArchiverCommandImpl implements Command {
             }
 
             if ("help".equals(subCommand)) {
-                out.println("subcommands: list, print, meta, mock");
+                out.println("subcommands: list, content, meta, mock");
                 out.println("\tlist - show saved archives");
-                out.println("\tprint <uid> - print the content of archive <uid>");
+                out.println("\tcontent <uid> - show the content of archive <uid>");
                 out.println("\tmeta <uid> - show the metaata for archive <uid>");
                 out.println("\tmock - generate and save mock data");
             } else if ("mock".equals(subCommand)) {
@@ -53,7 +53,7 @@ public class ArchiverCommandImpl implements Command {
                 for (GatherArchive savedArchive : archiverService.getAll()) {
                     out.println(savedArchive);
                 }
-            } else if ("print".equals(subCommand)) {
+            } else if ("content".equals(subCommand)) {
                 URI requestedUid = null;
                 try {
                     requestedUid = new URI(subArguments);
@@ -99,11 +99,12 @@ public class ArchiverCommandImpl implements Command {
     private GatherArchive createMockEntity() {
         MutableGatherArchive mockArchive = new MutableGatherArchive();
         String mockContent = "<mock id=\"" + mockContentCounter
-                + "\">\n\t<message>this is not real data</message>\n</mock>";
+                + "\">\n\t<message>real data uses pointy brackets</message>\n</mock>";
         mockArchive.setContent(mockContent);
         mockArchive.setDateCreated(new DateTime());
         mockArchive.setUid(CbidFactory.createCbid(mockContent));
-        mockArchive.getMetadata().put("mock-meta-header", "mock/archive");
+        mockArchive.getMetadata().put("mock-origin", "dropped from sky");
+        mockArchive.getMetadata().put("mock-type", "well, it is not flattery");
         mockContentCounter++;
         return mockArchive;
     }

@@ -3,13 +3,18 @@ package org.gatherdata.archiver.dao.jpa.model;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
@@ -34,16 +39,16 @@ public class GatherArchiveDTO implements GatherArchive {
     private static final long serialVersionUID = -3621945065615956862L;
 
     protected static final UniqueEntitySupport support = new UniqueEntitySupport();
-
-    @Id
+    
+    @Id    
     @Column(name = "UID")
     private String uidAsString;
-
+    
     @Transient
     private URI lazyuid;
 
-    @OneToMany
-    private Map<String, MetadataDTO> metadata;
+    @OneToMany (mappedBy = "archive", cascade = CascadeType.ALL)
+    private List<MetadataDTO> metadata;
 
     @Transient
     private Map<String, String> lazyMetadata;
@@ -98,7 +103,7 @@ public class GatherArchiveDTO implements GatherArchive {
         if (lazyMetadata == null) {
             lazyMetadata = new HashMap<String, String>();
             if (metadata != null) {
-                for (MetadataDTO metaEntry : metadata.values()) {
+                for (MetadataDTO metaEntry : metadata) {
                     lazyMetadata.put(metaEntry.key, metaEntry.value);
                 }
             }
@@ -126,12 +131,13 @@ public class GatherArchiveDTO implements GatherArchive {
             lazyMetadata = null;
             Map<String, String> templateMetadata = template.getMetadata();
             if (templateMetadata != null) {
-                metadata = new HashMap<String, MetadataDTO>();
+                metadata = new ArrayList<MetadataDTO>();
                 for (String templateMetaKey : templateMetadata.keySet()) {
                     MetadataDTO newMeta = new MetadataDTO();
                     newMeta.value  = templateMetadata.get(templateMetaKey);
                     newMeta.key = templateMetaKey;
-                    metadata.put(templateMetaKey, newMeta);
+                    newMeta.archive = this;
+                    metadata.add(newMeta);
                 }
             }
         }

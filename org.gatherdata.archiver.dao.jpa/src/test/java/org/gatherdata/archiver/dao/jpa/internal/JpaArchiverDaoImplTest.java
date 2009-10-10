@@ -76,9 +76,10 @@ public class JpaArchiverDaoImplTest extends BaseArchiverDaoTest {
         final String content = "mocked up plain text contents, for unit testing. item #" 
             + Integer.toString(mockPlainTextCount++);
         MutableGatherArchive mockEntity = new MutableGatherArchive();
-        mockEntity.setDateCreated(new DateTime()); //urnFactory.getLocalUrn(), contents, MimeTypes.TEXT_PLAIN);
+        mockEntity.setDateCreated(new DateTime());
         mockEntity.setContent(content);
         mockEntity.setUid(CbidFactory.createCbid(content));
+        mockEntity.getMetadata().put("test", "metadata entry for unit test");
         return mockEntity;
     }
 
