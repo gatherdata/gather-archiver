@@ -93,10 +93,14 @@ public class GatherArchiveDTO implements GatherArchive {
 
     public void setDateCreated(DateTime dateCreated) {
         this.lazyDateCreated = dateCreated;
-        if (dateCreatedAsCalendar == null) {
-            dateCreatedAsCalendar = new GregorianCalendar();
-        }
-        dateCreatedAsCalendar.setTimeInMillis(dateCreated.getMillis());
+		if (dateCreated != null) {
+        	if (dateCreatedAsCalendar == null) {
+            	dateCreatedAsCalendar = new GregorianCalendar();
+        	}
+        	dateCreatedAsCalendar.setTimeInMillis(dateCreated.getMillis());
+		} else {
+			dateCreatedAsCalendar = null;
+		}
     }
 
     public Map<String, String> getMetadata() {
