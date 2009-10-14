@@ -103,7 +103,7 @@ public class ArchiverCommandImpl implements Command {
         mockArchive.setContent(mockContent);
         mockArchive.setDateCreated(new DateTime());
         mockArchive.setUid(CbidFactory.createCbid(mockContent));
-        mockArchive.getMetadata().put("mock-origin", "dropped from sky");
+        mockArchive.getMetadata().put("mock-origin", "crowd murmur");
         mockArchive.getMetadata().put("mock-type", "well, it is not flattery");
         mockContentCounter++;
         return mockArchive;
