@@ -71,6 +71,14 @@
           <name>Columbia EclipseLink Maven Mirror</name>
           <url>http://mirror.cc.columbia.edu/pub/software/eclipse/rt/eclipselink/maven.repo/</url>
       </repository>
+      <repository>
+          <id>neo4j-public-repository</id>
+          <name>Publically available Maven 2 repository for Neo4j</name>
+          <url>http://m2.neo4j.org </url>
+          <snapshots>
+              <enabled>true</enabled>
+          </snapshots>
+      </repository>
   </repositories>
 
   <modules>
@@ -124,7 +132,7 @@
           </modules>
           <properties>
               <dao.gather-dependencies>neo4j-service</dao.gather-dependencies>
-              <dao.provision>scan-features:mvn:org.neo4j.apoc-bundle/org.neo4j.neo.karaf/1.0-SNAPSHOT/xml/features!/neo4j-meta</dao.provision>
+              <dao.provision>scan-features:mvn:org.gatherdata.gather-commons/org.gatherdata.commons.features.neo/1.0-SNAPSHOT/xml/features!/neo4j-meta</dao.provision>
           </properties>
       </profile>
   </profiles>
@@ -177,5 +185,18 @@
           </plugin>
       </plugins>
   </build>
+
+  <distributionManagement>
+      <repository>
+          <id>gather.releases</id>
+          <name>GATHERdata Releases</name>
+          <url>http://repository.gatherdata.org/content/repositories/releases</url>
+      </repository>
+      <snapshotRepository>
+          <id>gather.snapshots</id>
+          <name>GATHERdata Snapshots</name>
+          <url>http://repository.gatherdata.org/content/repositories/snapshots</url>
+      </snapshotRepository>
+  </distributionManagement>
 
 </project>
