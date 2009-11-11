@@ -45,6 +45,28 @@
 
   <repositories>
       <repository>
+          <id>gather.releases</id>
+          <name>GATHERdata Releases</name>
+          <url>http://repository.gatherdata.org/content/repositories/releases</url>
+          <releases>
+              <enabled>true</enabled>
+          </releases>
+          <snapshots>
+              <enabled>false</enabled>
+          </snapshots>
+      </repository>
+      <repository>
+          <id>gather.snapshots</id>
+          <name>GATHERdata Snapshots</name>
+          <url>http://repository.gatherdata.org/content/repositories/snapshots</url>
+          <releases>
+              <enabled>false</enabled>
+          </releases>
+          <snapshots>
+              <enabled>true</enabled>
+          </snapshots>
+      </repository>
+      <repository>
           <id>org.ops4j</id>
           <name>OPS4J Maven Repository</name>
           <url>http://repository.ops4j.org/maven2/</url>
