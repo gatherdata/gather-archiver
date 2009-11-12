@@ -1,7 +1,0 @@
---platform=felix
-
---profiles=log
-
-scan-features:mvn:org.gatherdata.gather-commons/org.gatherdata.commons.features/1.0-SNAPSHOT/xml/features!/gather-core,eclipselink
-scan-features:mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.features/1.0-SNAPSHOT/xml/features!/gather-archiver.core,gather-archiver.vfs
-

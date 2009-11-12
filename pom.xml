@@ -16,6 +16,7 @@
       <org.osgi.service.http.port>8080</org.osgi.service.http.port>
       <org.osgi.service.http.port.secure>8443</org.osgi.service.http.port.secure>
       <org.osgi.framework.system.packages.extra>com.sun.org.apache.xalan.internal.res,com.sun.org.apache.xpath.internal.objects,com.sun.org.apache.xpath.internal.jaxp,com.sun.org.apache.xml.internal.utils,com.sun.org.apache.xpath.internal,org.xml.sax</org.osgi.framework.system.packages.extra>
+
       <!-- gather versions -->
       <gather-commons.version>1.0-SNAPSHOT</gather-commons.version>
       <gather-archiver.version>1.0-SNAPSHOT</gather-archiver.version>
@@ -77,6 +78,9 @@
           <releases>
               <enabled>false</enabled>
           </releases>
+          <snapshots>
+              <enabled>true</enabled>
+          </snapshots>
       </repository>
       <repository>
           <id>com.springsource.repository.bundles.release</id>
@@ -88,20 +92,7 @@
           <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
           <url>http://repository.springsource.com/maven/bundles/external</url>
       </repository>
-      <repository>
-          <id>eclipselink.mirror</id>
-          <name>Columbia EclipseLink Maven Mirror</name>
-          <url>http://mirror.cc.columbia.edu/pub/software/eclipse/rt/eclipselink/maven.repo/</url>
-      </repository>
-      <repository>
-          <id>neo4j-public-repository</id>
-          <name>Publically available Maven 2 repository for Neo4j</name>
-          <url>http://m2.neo4j.org </url>
-          <snapshots>
-              <enabled>true</enabled>
-          </snapshots>
-      </repository>
-  </repositories>
+</repositories>
 
   <modules>
       <module>poms</module>
@@ -121,6 +112,13 @@
               <!-- redundant, but harmless dao.provision... -->
               <dao.provision>mvn:org.gatherdata.gather-archiver/org.gatherdata.archiver.dao.jpa/${gather-archiver.version}</dao.provision>
           </properties>
+          <repositories>
+              <repository>
+                  <id>eclipselink.mirror</id>
+                  <name>Columbia EclipseLink Maven Mirror</name>
+                  <url>http://mirror.cc.columbia.edu/pub/software/eclipse/rt/eclipselink/maven.repo/</url>
+              </repository>
+          </repositories> 
       </profile>
       <profile>
           <id>el</id>
@@ -149,13 +147,23 @@
       </profile>
       <profile>
           <id>neo4j</id>
-         <modules>
+          <modules>
               <module>org.gatherdata.archiver.dao.neo4j</module>
           </modules>
           <properties>
               <dao.gather-dependencies>neo4j-service</dao.gather-dependencies>
               <dao.provision>scan-features:mvn:org.gatherdata.gather-commons/org.gatherdata.commons.features.neo/1.0-SNAPSHOT/xml/features!/neo4j-meta</dao.provision>
           </properties>
+          <repositories>
+              <repository>
+                  <id>neo4j-public-repository</id>
+                  <name>Publically available Maven 2 repository for Neo4j</name>
+                  <url>http://m2.neo4j.org </url>
+                  <snapshots>
+                      <enabled>true</enabled>
+                  </snapshots>
+              </repository>
+          </repositories>
       </profile>
   </profiles>
 
