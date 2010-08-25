@@ -89,5 +89,11 @@ public class Db4oArchiverDaoTest extends BaseArchiverDaoTest {
     protected void endTransaction() {
         ;
     }
+
+	@Override
+	protected void rollbackTransaction() {
+		// TODO Auto-generated method stub
+		
+	}
    
 }

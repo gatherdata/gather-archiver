@@ -110,5 +110,10 @@ public class JpaArchiverDaoImplTest extends BaseArchiverDaoTest {
     public void shouldRunParentTestsInEclipse() {
         assertTrue(true);
     }
+
+	@Override
+	protected void rollbackTransaction() {
+		tx.rollback();
+	}
    
 }
